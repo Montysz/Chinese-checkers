@@ -19,6 +19,11 @@ public class Tile {
 		if(this.playerId == 0)return true;
 		else return false;
 	}
+	public boolean playable()
+	{
+		if(this.playerId == -1)return false;
+		else return true;
+	}
 	/**
 	 * Tile constructor
 	 * @param xCord
