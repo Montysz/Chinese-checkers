@@ -1,5 +1,8 @@
 package chinese_checkers.serwer;
 
+import chinese_checkers.Exceptions.invalidMoveException;
+import chinese_checkers.Exceptions.occupiedException;
+import chinese_checkers.Exceptions.outOfTheBoardException;
 import chinese_checkers.Exceptions.wrongNumberOfPlayersException;
 
 /**
@@ -9,12 +12,14 @@ import chinese_checkers.Exceptions.wrongNumberOfPlayersException;
  */
 public class Board {
 	private final int n = -1;
-	
+	private int xSize;
+	private int ySize;
 	/**
 	 * board with players' pices
 	 */
 	protected Tile[][] gameBoard;
 	public int numberOfPlayers;
+	private Player[] playerList;
 	/**
 	 * 
 	 * @param numberOfPlayers
@@ -24,26 +29,35 @@ public class Board {
 	 */
 	public Board(int numberOfPlayers) throws wrongNumberOfPlayersException
 	{
+		xSize = 12;
+		ySize = 16;
 		if(numberOfPlayers != 2 && numberOfPlayers != 3 && numberOfPlayers != 4 && numberOfPlayers != 6)
 		{
 			throw new wrongNumberOfPlayersException();
 		}
+		Player noPlayer = new Player(-1);
+		Player emptyPlayer = new Player(0);
+		this.playerList = new Player[numberOfPlayers+1];
+		for(int i = 1; i <= numberOfPlayers; i++)
+		{
+			this.playerList[i] = new Player(i);
+		}
 		int[][] board = {   {n,n,n,n,n,n,1,n,n,n,n,n,n},
-							 {n,n,n,n,n,1,1,n,n,n,n,n,n},
+							{n,n,n,n,n,1,1,n,n,n,n,n,n},
 							{n,n,n,n,n,1,1,1,n,n,n,n,n},
-							 {n,n,n,n,1,1,1,1,n,n,n,n,n},
+							{n,n,n,n,1,1,1,1,n,n,n,n,n},
 							{6,6,6,6,0,0,0,0,0,2,2,2,2},
-							 {6,6,6,0,0,0,0,0,0,2,2,2,n},
+							{6,6,6,0,0,0,0,0,0,2,2,2,n},
 							{n,6,6,0,0,0,0,0,0,0,2,2,n},
-							 {n,6,0,0,0,0,0,0,0,0,2,n,n},
+							{n,6,0,0,0,0,0,0,0,0,2,n,n},
 							{n,n,0,0,0,0,0,0,0,0,0,n,n},
-							 {n,5,0,0,0,0,0,0,0,0,3,n,n},
+							{n,5,0,0,0,0,0,0,0,0,3,n,n},
 							{n,5,5,0,0,0,0,0,0,0,3,3,n},
-							 {5,5,5,0,0,0,0,0,0,3,3,3,n},
+							{5,5,5,0,0,0,0,0,0,3,3,3,n},
 							{5,5,5,5,0,0,0,0,0,3,3,3,3},
-							 {n,n,n,n,4,4,4,4,n,n,n,n,n},
+							{n,n,n,n,4,4,4,4,n,n,n,n,n},
 							{n,n,n,n,n,4,4,4,n,n,n,n,n},
-							 {n,n,n,n,n,4,4,n,n,n,n,n,n},
+							{n,n,n,n,n,4,4,n,n,n,n,n,n},
 							{n,n,n,n,n,n,4,n,n,n,n,n,n},
 														};
 		this.numberOfPlayers = numberOfPlayers;
@@ -56,116 +70,116 @@ public class Board {
 				{
 					if(board[i][j] == 1)
 					{
-						this.gameBoard[i][j] = new Tile(j, i, 1, 2);
+						this.gameBoard[i][j] = new Tile(j, i, playerList[1], 2);
 					}
 					else if (board[i][j] == 4)
 					{
-						this.gameBoard[i][j] = new Tile(j, i, 2, 1);
+						this.gameBoard[i][j] = new Tile(j, i, playerList[2], 1);
 					}
 					else if (board[i][j] == -1)
 					{
-						this.gameBoard[i][j] = new Tile(j, i, -1, -1);
+						this.gameBoard[i][j] = new Tile(j, i, noPlayer, -1);
 					}
 					else
 					{
-						this.gameBoard[i][j] = new Tile(j, i, 0, 0);
+						this.gameBoard[i][j] = new Tile(j, i, emptyPlayer, 0);
 					}
 				}
 				else if(numberOfPlayers == 3)
 				{
 					if(board[i][j] == 1)
 					{
-						this.gameBoard[i][j] = new Tile(j, i, 1, 0);
+						this.gameBoard[i][j] = new Tile(j, i, playerList[1], 0);
 					}
 					else if (board[i][j] == 2)
 					{
-						this.gameBoard[i][j] = new Tile(j, i, 0, 2);
+						this.gameBoard[i][j] = new Tile(j, i, emptyPlayer, 2);
 					}
 					else if (board[i][j] == 3)
 					{
-						this.gameBoard[i][j] = new Tile(j, i, 3, 0);
+						this.gameBoard[i][j] = new Tile(j, i, playerList[3], 0);
 					}
 					else if (board[i][j] == 4)
 					{
-						this.gameBoard[i][j] = new Tile(j, i, 0, 1);
+						this.gameBoard[i][j] = new Tile(j, i, emptyPlayer, 1);
 					}
 					else if (board[i][j] == 5)
 					{
-						this.gameBoard[i][j] = new Tile(j, i, 5, 0);
+						this.gameBoard[i][j] = new Tile(j, i, playerList[5], 0);
 					}
 					else if (board[i][j] == 6)
 					{
-						this.gameBoard[i][j] = new Tile(j, i, 0, 5);
+						this.gameBoard[i][j] = new Tile(j, i, emptyPlayer, 5);
 					}
 					else if (board[i][j] == -1)
 					{
-						this.gameBoard[i][j] = new Tile(j, i, -1, -1);
+						this.gameBoard[i][j] = new Tile(j, i, noPlayer, -1);
 					}
 					else
 					{
-						this.gameBoard[i][j] = new Tile(j, i, 0, 0);
+						this.gameBoard[i][j] = new Tile(j, i, emptyPlayer, 0);
 					}
 				}
 				else if(numberOfPlayers == 4)
 				{
 					if(board[i][j] == 1)
 					{
-						this.gameBoard[i][j] = new Tile(j, i, 1, 4);
+						this.gameBoard[i][j] = new Tile(j, i, playerList[1], 4);
 					}
 					else if (board[i][j] == 2)
 					{
-						this.gameBoard[i][j] = new Tile(j, i, 2, 5);
+						this.gameBoard[i][j] = new Tile(j, i, playerList[2], 5);
 					}
 					else if (board[i][j] == 4)
 					{
-						this.gameBoard[i][j] = new Tile(j, i, 4, 1);
+						this.gameBoard[i][j] = new Tile(j, i, playerList[4], 1);
 					}
 					else if (board[i][j] == 5)
 					{
-						this.gameBoard[i][j] = new Tile(j, i, 5, 2);
+						this.gameBoard[i][j] = new Tile(j, i, playerList[5], 2);
 					}
 					else if (board[i][j] == -1)
 					{
-						this.gameBoard[i][j] = new Tile(j, i, -1, -1);
+						this.gameBoard[i][j] = new Tile(j, i, noPlayer, -1);
 					}
 					else
 					{
-						this.gameBoard[i][j] = new Tile(j, i, 0, 0);
+						this.gameBoard[i][j] = new Tile(j, i, emptyPlayer, 0);
 					}
 				}
 				else if(numberOfPlayers == 6)
 				{
 					if(board[i][j] == 1)
 					{
-						this.gameBoard[i][j] = new Tile(j, i, 1, 4);
+						this.gameBoard[i][j] = new Tile(j, i, playerList[1], 4);
 					}
 					else if (board[i][j] == 2)
 					{
-						this.gameBoard[i][j] = new Tile(j, i, 2, 5);
+						this.gameBoard[i][j] = new Tile(j, i, playerList[2], 5);
 					}
 					else if (board[i][j] == 3)
 					{
-						this.gameBoard[i][j] = new Tile(j, i, 3, 6);
+						this.gameBoard[i][j] = new Tile(j, i, playerList[3], 6);
 					}
 					else if (board[i][j] == 4)
 					{
-						this.gameBoard[i][j] = new Tile(j, i, 4, 1);	
+						this.gameBoard[i][j] = new Tile(j, i, playerList[4], 1);	
 					}
 					else if (board[i][j] == 5)
 					{
-						this.gameBoard[i][j] = new Tile(j, i, 5, 2);
+						this.gameBoard[i][j] = new Tile(j, i, playerList[5], 2);
 					}
 					else if (board[i][j] == 6)
 					{
-						this.gameBoard[i][j] = new Tile(j, i, 6, 3);
+						this.gameBoard[i][j] = new Tile(j, i, playerList[6], 3);
 					}
 					else if (board[i][j] == -1)
 					{
-						this.gameBoard[i][j] = new Tile(j, i, -1, -1);
+						this.gameBoard[i][j] = new Tile(j, i, noPlayer, -1);
 					}
 					else
 					{
-						this.gameBoard[i][j] = new Tile(j, i, 0, 0);
+						this.gameBoard[i][j] = new Tile(j, i, emptyPlayer, 0);
 					}
 				}
 				else
@@ -185,5 +199,136 @@ public class Board {
 	public Board(int boardSize, int players)
 	{
 		//TODO: implement constructor for difrent boards and games 
+	}
+	/**
+	 * Moves a piece from one tile to another
+	 * @param x
+	 * 	x-coordinate of a tile 
+	 * @param y
+	 * 	y-coordinate of a tile
+	 * @param newX
+	 * 	x-coordinate of a tile to move
+	 * @param newY
+	 * 	y-coordiante of a tile to move
+	 * @return
+	 * 	true if a move was valid and compleated, false otherwise
+	 */
+	public boolean movePiece(int x, int y, int newX, int newY, int PlayerId) throws occupiedException, invalidMoveException, outOfTheBoardException
+	{
+		//TODO: check if its the right player move
+		if(newX > xSize || newY > ySize)throw new outOfTheBoardException();
+		Tile tmpTile = null;
+		if(!this.gameBoard[newY][newX].playable())throw new outOfTheBoardException();
+		if(!this.gameBoard[newY][newX].isEmpty())throw new occupiedException();
+		int dX = newX - x;
+		int dY = newY - y;
+		if(y%2 == 0) // x+1, x-1, y+1, y-1, x-1 y-1, x-1 y+1
+		{
+			if((dX == -1) && (dY == -1) )
+			{
+				tmpTile = this.gameBoard[newY][newX];
+				this.gameBoard[newY][newX] = this.gameBoard[y][x];
+				this.gameBoard[y][x] = tmpTile;
+				return true;
+			}
+			else if((dX == -1) && (dY - y == 1) )
+			{
+				tmpTile = this.gameBoard[newY][newX];
+				this.gameBoard[newY][newX] = this.gameBoard[y][x];
+				this.gameBoard[y][x] = tmpTile;
+				return true;
+			}
+			else if(dX == -1 && dY == 0)
+			{
+				tmpTile = this.gameBoard[newY][newX];
+				this.gameBoard[newY][newX] = this.gameBoard[y][x];
+				this.gameBoard[y][x] = tmpTile;
+				return true;
+			}
+			else if(dX == 1 && dY == 0)
+			{
+				tmpTile = this.gameBoard[newY][newX];
+				this.gameBoard[newY][newX] = this.gameBoard[y][x];
+				this.gameBoard[y][x] = tmpTile;
+				return true;
+			}
+			else if(dY == -1 && dX == 0)
+			{
+				tmpTile = this.gameBoard[newY][newX];
+				this.gameBoard[newY][newX] = this.gameBoard[y][x];
+				this.gameBoard[y][x] = tmpTile;
+				return true;
+			}
+			else if(dY == 1 && dX == 0)
+			{
+				tmpTile = this.gameBoard[newY][newX];
+				this.gameBoard[newY][newX] = this.gameBoard[y][x];
+				this.gameBoard[y][x] = tmpTile;
+				return true;
+			}
+			else
+			{
+				//TODO: implement jumping over pieces
+				throw new invalidMoveException();
+			}
+			
+		}
+		else if(y%2 == 1)// x+1, x-1, y+1, y-1, x+1 y-1, x+1 y+1
+		{
+			if((dX == 1) && (dY == -1) )
+			{
+				tmpTile = this.gameBoard[newY][newX];
+				this.gameBoard[newY][newX] = this.gameBoard[y][x];
+				this.gameBoard[y][x] = tmpTile;
+				return true;
+			}
+			else if((dX == 1) && (dY == 1) )
+			{
+				tmpTile = this.gameBoard[newY][newX];
+				this.gameBoard[newY][newX] = this.gameBoard[y][x];
+				this.gameBoard[y][x] = tmpTile;
+				return true;
+			}
+			else if(dX == -1 && dY == 0)
+			{
+				tmpTile = this.gameBoard[newY][newX];
+				this.gameBoard[newY][newX] = this.gameBoard[y][x];
+				this.gameBoard[y][x] = tmpTile;
+				return true;
+			}
+			else if(dX == 1 && dY == 0)
+			{
+				tmpTile = this.gameBoard[newY][newX];
+				this.gameBoard[newY][newX] = this.gameBoard[y][x];
+				this.gameBoard[y][x] = tmpTile;
+				return true;
+			}
+			else if(dY == -1 && dX == 0)
+			{
+				tmpTile = this.gameBoard[newY][newX];
+				this.gameBoard[newY][newX] = this.gameBoard[y][x];
+				this.gameBoard[y][x] = tmpTile;
+				return true;
+			}
+			else if(dY == 1 && dX == 0)
+			{
+				tmpTile = this.gameBoard[newY][newX];
+				this.gameBoard[newY][newX] = this.gameBoard[y][x];
+				this.gameBoard[y][x] = tmpTile;
+				return true;
+			}
+			else
+			{	
+				//TODO: implement jumping over pieces
+				throw new invalidMoveException();
+			}
+		}
+		//TODO: chceck if player has won
+		return false;
+	}
+	
+	public Tile findTile(int x, int y)
+	{
+		return this.gameBoard[y][x];
 	}
 }

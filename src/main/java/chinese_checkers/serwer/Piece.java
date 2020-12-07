@@ -2,24 +2,30 @@ package chinese_checkers.serwer;
 
 import chinese_checkers.Exceptions.invalidMoveException;
 /**
- * 
+ * TODO: do wyrzucenia???
  * @author Pawel
  *
  */
-public class Piece {
+public class Piece{
 	
-	private int xCord;
-	
-	private int yCord;
-	
+	private Tile tile;
+	/**
+	 * 
+	 * @return
+	 * 	x-coordinate of the piece
+	 */
 	public int getxCord()
 	{
-		return this.xCord;
+		return this.tile.getX();
 	}
-	
+	/**
+	 * 
+	 * @return
+	 * 	y-coordinate of the piece
+	 */
 	public int getyCord()
 	{
-		return this.yCord;
+		return this.tile.getY();
 	}
 	/**
 	 * 
@@ -30,9 +36,9 @@ public class Piece {
 	 * @return
 	 * 	returns true if the given piece was succesfuly moved, otherwise throws invalidMoveException
 	 */
-	public boolean movePiece(int newX, int newY) throws invalidMoveException
+	public boolean isWinning()
 	{
-		//TODO: implement piece movement rules
-		return false;
+		if(tile.getWinningId() == tile.getPlayerId())return true;
+		else return false;
 	}
 }
