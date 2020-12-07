@@ -9,11 +9,12 @@ import chinese_checkers.Exceptions.wrongNumberOfPlayersException;
  */
 public class Board {
 	private final int n = -1;
+	
 	/**
 	 * board with players' pices
 	 */
 	protected Tile[][] gameBoard;
-	protected int numberOfPlayers;
+	public int numberOfPlayers;
 	/**
 	 * 
 	 * @param numberOfPlayers
