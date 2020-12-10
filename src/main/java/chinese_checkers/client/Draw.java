@@ -12,6 +12,7 @@ import chinese_checkers.serwer.Board;
 import chinese_checkers.serwer.Tile;
 //class of Client
 
+
 public class Draw extends JFrame implements MouseListener{
 
 
@@ -20,7 +21,7 @@ public class Draw extends JFrame implements MouseListener{
 	//Board board = new Board(numberOfPlayers);
 
 
-	private static Board Tmp;
+	private Board Tmp;
 //	Tile a = Tmp.gameBoard[1][2];
 
 	//zwraca int
@@ -37,7 +38,7 @@ public class Draw extends JFrame implements MouseListener{
     public static void main(String[] args) 
     {
     	try {
-    		Tmp = new Board(6);
+    		this.Tmp = new Board(6);
     	}
     	catch(wrongNumberOfPlayersException e) {
     		
@@ -73,7 +74,7 @@ public class Draw extends JFrame implements MouseListener{
             for(int j=0; j<13;j++)
             {
                 
-                switch(gameboard.gameBoard[i][j].getPlayerId())
+                switch(gameboard.getBoard()[i][j].getPlayerId())
                 {
                     case -1:
                         g2.setColor(Color.black);
