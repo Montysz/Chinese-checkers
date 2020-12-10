@@ -21,7 +21,7 @@ public class Draw extends JFrame implements MouseListener{
 	//Board board = new Board(numberOfPlayers);
 
 
-	private Board Tmp;
+	private static Board Tmp;
 //	Tile a = Tmp.gameBoard[1][2];
 
 	//zwraca int
@@ -37,12 +37,14 @@ public class Draw extends JFrame implements MouseListener{
 
     public static void main(String[] args) 
     {
+    
     	try {
-    		this.Tmp = new Board(6);
-    	}
-    	catch(wrongNumberOfPlayersException e) {
-    		
-    	}
+			Tmp = new Board(6);
+		} catch (wrongNumberOfPlayersException e) {
+			
+			e.printStackTrace();
+		}
+    	
 
     	Draw draw = new Draw();
        draw.setVisible(true);
