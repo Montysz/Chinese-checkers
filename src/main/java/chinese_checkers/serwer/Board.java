@@ -326,7 +326,18 @@ public class Board {
 		//TODO: chceck if player has won
 		return false;
 	}
-	
+	public int getXSize()
+	{
+		return this.xSize;
+	}
+	public int getYSize()
+	{
+		return this.ySize;
+	}
+	public Tile[][] getBoard()
+	{
+		return this.gameBoard;
+	}
 	public Tile findTile(int x, int y)
 	{
 		return this.gameBoard[y][x];
