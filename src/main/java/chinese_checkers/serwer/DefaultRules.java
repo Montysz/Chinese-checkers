@@ -19,16 +19,21 @@ public class DefaultRules implements Rules {
 	 */
 	private int ySize;
 	/**
+	 * number of pieces each player has
+	 */
+	private int numberOfPieces;
+	/**
 	 * 
 	 * @param x
 	 * 	x-size of the board
 	 * @param y
 	 *  y-size of the board
 	 */
-	public DefaultRules(int x, int y)
+	public DefaultRules(int x, int y, int numberOfPieces)
 	{
 		this.xSize = x;
 		this.ySize = y;
+		this.numberOfPieces = numberOfPieces;
 	}
 	
 	public int movePiece(int x, int y, int newX, int newY, int playerId, Tile[][] gameBoard) throws occupiedException, invalidMoveException, outOfTheBoardException, cantGetOutOfTheJaillException
@@ -160,7 +165,7 @@ public class DefaultRules implements Rules {
 		
 		throw new invalidMoveException();
 	}
-	//for basic rules just assume that the piece count is 10;
+
 	public boolean hasWon(int playerId, Tile[][] gameBoard) {
 		int count = 0;
 		for(int i = 0; i < ySize; i++)
@@ -173,7 +178,7 @@ public class DefaultRules implements Rules {
 				}
 			}
 		}
-		if(count == 10)return true;
+		if(count == this.numberOfPieces)return true;
 		return false;
 	}
 }

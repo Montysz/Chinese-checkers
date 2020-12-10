@@ -33,7 +33,7 @@ public class Board {
 	{
 		xSize = 12;
 		ySize = 16;
-		curentRule = new DefaultRules(this.xSize, this.ySize);
+		curentRule = new DefaultRules(this.xSize, this.ySize, 10);
 		if(numberOfPlayers != 2 && numberOfPlayers != 3 && numberOfPlayers != 4 && numberOfPlayers != 6)
 		{
 			throw new wrongNumberOfPlayersException();
