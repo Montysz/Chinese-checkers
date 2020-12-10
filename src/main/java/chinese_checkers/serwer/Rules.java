@@ -1,5 +1,6 @@
 package chinese_checkers.serwer;
 
+import chinese_checkers.Exceptions.cantGetOutOfTheJaillException;
 import chinese_checkers.Exceptions.invalidMoveException;
 import chinese_checkers.Exceptions.occupiedException;
 import chinese_checkers.Exceptions.outOfTheBoardException;
@@ -24,7 +25,9 @@ public interface Rules {
 	 * @param gameBoard
 	 * 	current state of a game 
 	 * @return
-	 * 	true if the piece is able to move in given tile on specific rule set
+	 * 	0 - if move failed;
+	 * 	1 - if move was done and u cant do another move
+	 *  2 - if player did a jump move and is able to do another jump
 	 * @throws occupiedException
 	 * 	if the tile to move is occupied
 	 * @throws invalidMoveException
@@ -32,7 +35,7 @@ public interface Rules {
 	 * @throws outOfTheBoardException
 	 * 	if the move goes out of the board
 	 */
-	public boolean movePiece(int x, int y, int newX, int newY, int playerId, Tile[][] gameBoard) throws occupiedException, invalidMoveException, outOfTheBoardException;
+	public int movePiece(int x, int y, int newX, int newY, int playerId, Tile[][] gameBoard) throws occupiedException, invalidMoveException, outOfTheBoardException, cantGetOutOfTheJaillException;
 	/**
 	 * 
 	 * @param playerId

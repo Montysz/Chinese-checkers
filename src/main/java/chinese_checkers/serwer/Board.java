@@ -1,5 +1,6 @@
 package chinese_checkers.serwer;
 
+import chinese_checkers.Exceptions.cantGetOutOfTheJaillException;
 import chinese_checkers.Exceptions.invalidMoveException;
 import chinese_checkers.Exceptions.occupiedException;
 import chinese_checkers.Exceptions.outOfTheBoardException;
@@ -215,16 +216,17 @@ public class Board {
 	 * @return
 	 * 	true if a move was valid and compleated, false otherwise
 	 */
-	public boolean movePiece(int x, int y, int newX, int newY, int playerId) throws occupiedException, invalidMoveException, outOfTheBoardException
+	public int movePiece(int x, int y, int newX, int newY, int playerId) throws occupiedException, invalidMoveException, outOfTheBoardException, cantGetOutOfTheJaillException
 	{
 		int pId;
+		int outcome = 0;
 		try
 		{
-			this.curentRule.movePiece(x, y, newX, newY, playerId, this.gameBoard);
+			outcome = this.curentRule.movePiece(x, y, newX, newY, playerId, this.gameBoard);
 			pId =  this.gameBoard[newY][newX].getPlayerId();
 			this.gameBoard[newY][newX].setPlayerId(gameBoard[y][x].getPlayerId());
 			this.gameBoard[y][x].setPlayerId(pId);
-			return true;
+			return outcome;
 			
 		}
 		catch (occupiedException e)
@@ -239,7 +241,22 @@ public class Board {
 		{
 			throw new outOfTheBoardException();
 		}
+		catch (cantGetOutOfTheJaillException e)
+		{
+			throw new cantGetOutOfTheJaillException();
+		}
 		
+	}
+	/**
+	 * 
+	 * @param playerId
+	 * 	id of a player
+	 * @return
+	 * 	true if player with given id has won, false otherwise
+	 */
+	public boolean hasWon(int playerId)
+	{
+		return this.curentRule.hasWon(playerId, this.gameBoard);
 	}
 	public int getXSize()
 	{

@@ -1,5 +1,6 @@
 package chinese_checkers.serwer;
 
+import chinese_checkers.Exceptions.cantGetOutOfTheJaillException;
 import chinese_checkers.Exceptions.invalidMoveException;
 import chinese_checkers.Exceptions.occupiedException;
 import chinese_checkers.Exceptions.outOfTheBoardException;
@@ -30,13 +31,13 @@ public class DefaultRules implements Rules {
 		this.ySize = y;
 	}
 	
-	public boolean movePiece(int x, int y, int newX, int newY, int playerId, Tile[][] gameBoard) throws occupiedException, invalidMoveException, outOfTheBoardException
+	public int movePiece(int x, int y, int newX, int newY, int playerId, Tile[][] gameBoard) throws occupiedException, invalidMoveException, outOfTheBoardException, cantGetOutOfTheJaillException
 	{
 		if(newX > xSize || newY > ySize)throw new outOfTheBoardException();
 		if(!gameBoard[newY][newX].playable())throw new outOfTheBoardException();
 		if(!gameBoard[newY][newX].isEmpty())throw new occupiedException();
 		if(gameBoard[y][x].getPlayerId() != playerId)throw new invalidMoveException();
-		if(gameBoard[y][x].isWinning() && gameBoard[newY][newX].getWinningId() != playerId)throw new invalidMoveException();
+		if(gameBoard[y][x].isWinning() && gameBoard[newY][newX].getWinningId() != playerId)throw new cantGetOutOfTheJaillException();
 		int dX = newX - x;
 		int dY = newY - y;
 		/*
@@ -49,52 +50,52 @@ public class DefaultRules implements Rules {
 		{
 			if(dX == 1 && dY == 0)//x+1
 			{
-				return true;
+				return 1;
 			}
 			else if(gameBoard[y][x+1].playable() && !gameBoard[y][x+1].isEmpty() && dX == 2 && dY == 0)//jump x+2
 			{
 				
-				return true;
+				return 2;
 			}
 			else if(dX == -1 && dY == 0)//x-1
 			{
-				return true;
+				return 1;
 			}
 			else if(gameBoard[y][x-1].playable() && !gameBoard[y][x-1].isEmpty() && dX == -2 && dY == 0)//jump x-2
 			{
-				return true;
+				return 2;
 			}
 			else if(dY == 1 && dX == 0)//y+1
 			{
-				return true;
+				return 1;
 			}
 			else if(gameBoard[y+1][x].playable() && !gameBoard[y+1][x].isEmpty() && dX == 1 && dY == 2)//jump y+2 x+1
 			{
-				return true;
+				return 2;
 			}
 			else if(dY == -1 && dX == 0)//y-1
 			{
-				return true;
+				return 1;
 			}
 			else if(gameBoard[y-1][x].playable() && !gameBoard[y-1][x].isEmpty() && dX == 1 && dY == -2)//jump y-2 x+1
 			{
-				return true;
+				return 1;
 			}
 			else if((dX == -1) && (dY == -1) )//y-1 x-1
 			{
-				return true;
+				return 1;
 			}
 			else if(gameBoard[y-1][x-1].playable() && !gameBoard[y-1][x-1].isEmpty() && dX == -1 && dY == -2)//jump y-2 x-1
 			{
-				return true;
+				return 2;
 			}
 			else if((dX == 1) && (dY == 1) )//y+1 x-1
 			{
-				return true;
+				return 1;
 			}
 			else if(gameBoard[y+1][x+1].playable() && !gameBoard[y+1][x+1].isEmpty() && dX == -1 && dY == 2)//jump y+2 x-1
 			{
-				return true;
+				return 2;
 			}
 			
 			
@@ -109,51 +110,51 @@ public class DefaultRules implements Rules {
 		{
 			if(dX == 1 && dY == 0)//x+1
 			{
-				return true;
+				return 1;
 			}
 			else if(gameBoard[y][x+1].playable() && !gameBoard[y][x+1].isEmpty() && dX == 2 && dY == 0)//jump x+2
 			{
-				return true;
+				return 2;
 			}
 			else if(dX == -1 && dY == 0)//x-1
 			{
-				return true;
+				return 1;
 			}
 			else if(gameBoard[y][x-1].playable() && !gameBoard[y][x-1].isEmpty() && dX == -2 && dY == 0)//jump x-2
 			{
-				return true;
+				return 2;
 			}
 			else if(dY == 1 && dX == 0)//y+1
 			{
-				return true;
+				return 1;
 			}
 			else if(gameBoard[y+1][x].playable() && !gameBoard[y+1][x].isEmpty() && dX == -1 && dY == 2)//jump y+2 x-1
 			{
-				return true;
+				return 2;
 			}
 			else if(dY == -1 && dX == 0)//y-1
 			{
-				return true;
+				return 1;
 			}
 			else if(gameBoard[y-1][x].playable() && !gameBoard[y-1][x].isEmpty() && dX == -1 && dY == -2)//jump y-2 x-1
 			{
-				return true;
+				return 2;
 			}
 			else if((dX == 1) && (dY == -1) )//y-1 x+1
 			{
-				return true;
+				return 1;
 			}
 			else if(gameBoard[y-1][x+1].playable() && !gameBoard[y-1][x+1].isEmpty() && dX == +1 && dY == -2)//jump y-2 x+1
 			{
-				return true;
+				return 2;
 			}
 			else if((dX == 1) && (dY == 1) )//y+1 x+1
 			{
-				return true;
+				return 1;
 			}
 			else if(gameBoard[y+1][x+1].playable() && !gameBoard[y+1][x+1].isEmpty() && dX == 1 && dY == 2)//jump y+2 x+1
 			{
-				return true;
+				return 2;
 			}
 		}
 		
