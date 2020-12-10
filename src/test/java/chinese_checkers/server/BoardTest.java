@@ -10,9 +10,15 @@ import chinese_checkers.Exceptions.outOfTheBoardException;
 import chinese_checkers.Exceptions.wrongNumberOfPlayersException;
 import chinese_checkers.serwer.Board;
 import chinese_checkers.serwer.Tile;
-
+/**
+ * 
+ * @author Pawel
+ *
+ */
 public class BoardTest {
-
+	/*
+	 * tests related to number of players
+	 */
 	@Test
 	public void testNumberOfPlayers() throws wrongNumberOfPlayersException {
 		Board gameBoard = new Board(6);
@@ -31,7 +37,9 @@ public class BoardTest {
 		Board gameBoard = new Board(10);
 		
 	}
-	//TODO: test jump moves
+	/*
+	 * tests related to basic moves (without jumps) 
+	 */
 	@Test
 	public void testBasicMove() throws wrongNumberOfPlayersException, occupiedException, invalidMoveException, outOfTheBoardException
 	{
@@ -60,5 +68,18 @@ public class BoardTest {
 	{
 		Board gameBoard = new Board(6);
 		gameBoard.movePiece(7, 3, 6, 4, 1);
+	}
+	/*
+	 * tests related to jump moves
+	 */
+	@Test
+	public void testJumpMove() throws wrongNumberOfPlayersException, occupiedException, invalidMoveException, outOfTheBoardException
+	{
+		Board gameBoard = new Board(6);
+		gameBoard.movePiece(7, 3, 8, 4, 1);
+		assertEquals(1, gameBoard.findTile(8, 4).getPlayerId());
+		assertTrue(gameBoard.findTile(8, 4).playable());
+		gameBoard.movePiece(9, 4, 7, 4, 2);
+		assertEquals(2, gameBoard.findTile(7, 4).getPlayerId());
 	}
 }
