@@ -14,6 +14,7 @@ public class Board {
 	private final int n = -1;
 	private int xSize;
 	private int ySize;
+	private Rules curentRule;
 	/**
 	 * board with players' pices
 	 */
@@ -31,6 +32,7 @@ public class Board {
 	{
 		xSize = 12;
 		ySize = 16;
+		curentRule = new DefaultRules(this.xSize, this.ySize);
 		if(numberOfPlayers != 2 && numberOfPlayers != 3 && numberOfPlayers != 4 && numberOfPlayers != 6)
 		{
 			throw new wrongNumberOfPlayersException();
@@ -213,118 +215,31 @@ public class Board {
 	 * @return
 	 * 	true if a move was valid and compleated, false otherwise
 	 */
-	public boolean movePiece(int x, int y, int newX, int newY, int PlayerId) throws occupiedException, invalidMoveException, outOfTheBoardException
+	public boolean movePiece(int x, int y, int newX, int newY, int playerId) throws occupiedException, invalidMoveException, outOfTheBoardException
 	{
-		//TODO: check if its the right player move
-		if(newX > xSize || newY > ySize)throw new outOfTheBoardException();
-		Tile tmpTile = null;
-		if(!this.gameBoard[newY][newX].playable())throw new outOfTheBoardException();
-		if(!this.gameBoard[newY][newX].isEmpty())throw new occupiedException();
-		int dX = newX - x;
-		int dY = newY - y;
-		if(y%2 == 0) // x+1, x-1, y+1, y-1, x-1 y-1, x-1 y+1
+		int pId;
+		try
 		{
-			if((dX == -1) && (dY == -1) )
-			{
-				tmpTile = this.gameBoard[newY][newX];
-				this.gameBoard[newY][newX] = this.gameBoard[y][x];
-				this.gameBoard[y][x] = tmpTile;
-				return true;
-			}
-			else if((dX == -1) && (dY - y == 1) )
-			{
-				tmpTile = this.gameBoard[newY][newX];
-				this.gameBoard[newY][newX] = this.gameBoard[y][x];
-				this.gameBoard[y][x] = tmpTile;
-				return true;
-			}
-			else if(dX == -1 && dY == 0)
-			{
-				tmpTile = this.gameBoard[newY][newX];
-				this.gameBoard[newY][newX] = this.gameBoard[y][x];
-				this.gameBoard[y][x] = tmpTile;
-				return true;
-			}
-			else if(dX == 1 && dY == 0)
-			{
-				tmpTile = this.gameBoard[newY][newX];
-				this.gameBoard[newY][newX] = this.gameBoard[y][x];
-				this.gameBoard[y][x] = tmpTile;
-				return true;
-			}
-			else if(dY == -1 && dX == 0)
-			{
-				tmpTile = this.gameBoard[newY][newX];
-				this.gameBoard[newY][newX] = this.gameBoard[y][x];
-				this.gameBoard[y][x] = tmpTile;
-				return true;
-			}
-			else if(dY == 1 && dX == 0)
-			{
-				tmpTile = this.gameBoard[newY][newX];
-				this.gameBoard[newY][newX] = this.gameBoard[y][x];
-				this.gameBoard[y][x] = tmpTile;
-				return true;
-			}
-			else
-			{
-				//TODO: implement jumping over pieces
-				throw new invalidMoveException();
-			}
+			this.curentRule.movePiece(x, y, newX, newY, playerId, this.gameBoard);
+			pId =  this.gameBoard[newY][newX].getPlayerId();
+			this.gameBoard[newY][newX].setPlayerId(gameBoard[y][x].getPlayerId());
+			this.gameBoard[y][x].setPlayerId(pId);
+			return true;
 			
 		}
-		else if(y%2 == 1)// x+1, x-1, y+1, y-1, x+1 y-1, x+1 y+1
+		catch (occupiedException e)
 		{
-			if((dX == 1) && (dY == -1) )
-			{
-				tmpTile = this.gameBoard[newY][newX];
-				this.gameBoard[newY][newX] = this.gameBoard[y][x];
-				this.gameBoard[y][x] = tmpTile;
-				return true;
-			}
-			else if((dX == 1) && (dY == 1) )
-			{
-				tmpTile = this.gameBoard[newY][newX];
-				this.gameBoard[newY][newX] = this.gameBoard[y][x];
-				this.gameBoard[y][x] = tmpTile;
-				return true;
-			}
-			else if(dX == -1 && dY == 0)
-			{
-				tmpTile = this.gameBoard[newY][newX];
-				this.gameBoard[newY][newX] = this.gameBoard[y][x];
-				this.gameBoard[y][x] = tmpTile;
-				return true;
-			}
-			else if(dX == 1 && dY == 0)
-			{
-				tmpTile = this.gameBoard[newY][newX];
-				this.gameBoard[newY][newX] = this.gameBoard[y][x];
-				this.gameBoard[y][x] = tmpTile;
-				return true;
-			}
-			else if(dY == -1 && dX == 0)
-			{
-				tmpTile = this.gameBoard[newY][newX];
-				this.gameBoard[newY][newX] = this.gameBoard[y][x];
-				this.gameBoard[y][x] = tmpTile;
-				return true;
-			}
-			else if(dY == 1 && dX == 0)
-			{
-				tmpTile = this.gameBoard[newY][newX];
-				this.gameBoard[newY][newX] = this.gameBoard[y][x];
-				this.gameBoard[y][x] = tmpTile;
-				return true;
-			}
-			else
-			{	
-				//TODO: implement jumping over pieces
-				throw new invalidMoveException();
-			}
+			throw new occupiedException();
 		}
-		//TODO: chceck if player has won
-		return false;
+		catch (invalidMoveException e)
+		{
+			throw new invalidMoveException();
+		}
+		catch (outOfTheBoardException e)
+		{
+			throw new outOfTheBoardException();
+		}
+		
 	}
 	public int getXSize()
 	{

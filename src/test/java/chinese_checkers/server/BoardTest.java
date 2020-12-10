@@ -36,9 +36,9 @@ public class BoardTest {
 	public void testBasicMove() throws wrongNumberOfPlayersException, occupiedException, invalidMoveException, outOfTheBoardException
 	{
 		Board gameBoard = new Board(6);
-		Tile tmpTile = gameBoard.findTile(7, 3);
+		int playerId = gameBoard.findTile(7, 3).getPlayerId();
 		assertTrue(gameBoard.movePiece(7, 3, 7, 4, 1)); //vallid move, should have moved 
-		assertNotEquals(tmpTile, gameBoard.findTile(7, 3)); // check if it in fact moved
+		assertNotEquals(playerId, gameBoard.findTile(7, 3).getPlayerId()); // check if it in fact moved
 	}
 	
 	@Test(expected = occupiedException.class)

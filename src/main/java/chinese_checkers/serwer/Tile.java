@@ -22,6 +22,11 @@ public class Tile {
 		if(this.playerId == 0)return true;
 		else return false;
 	}
+	/**
+	 * 
+	 * @return
+	 * 	true if tile is playable, false otherwise
+	 */
 	public boolean playable()
 	{
 		if(this.playerId== -1)return false;
@@ -48,6 +53,10 @@ public class Tile {
 		{
 			player.addPiece(this);
 		}
+	}
+	public void setPlayerId(int id)
+	{
+		this.playerId = id;
 	}
 	/**
 	 * 
