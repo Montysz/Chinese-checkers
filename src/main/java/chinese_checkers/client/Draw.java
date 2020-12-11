@@ -23,8 +23,7 @@ private Board currentBoard;
     	catch (wrongNumberOfPlayersException e) {
 			
 			e.printStackTrace();
-		}
-    	
+		}    	
 
     	Draw draw = new Draw(Tmp);
        draw.setVisible(true);

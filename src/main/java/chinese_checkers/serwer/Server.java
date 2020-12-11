@@ -11,12 +11,12 @@ import java.net.Socket;
 
 /**
  * 
- * @author Pawel
+ * @author Szymon
  *
  */
 
 public class Server extends Thread {
-/*	public static final int PORT_NUMBER = 8888;
+public static final int PORT_NUMBER = 8888;
 
 	protected Socket socket;
 
@@ -38,6 +38,9 @@ public class Server extends Thread {
 				System.out.println("Message received:" + request);
 				request += '\n';
 				out.write(request.getBytes());
+				if(request =="Cycki\n") {
+					socket.close();
+				}
 			}
 
 		} catch (IOException ex) {
@@ -54,7 +57,7 @@ public class Server extends Thread {
 	}
 
 	public static void main(String[] args) {
-		System.out.println("SocketServer Example");
+		System.out.println("Socke Cycki tServer Example");
 		ServerSocket server = null;
 		try {
 			server = new ServerSocket(PORT_NUMBER);
@@ -62,13 +65,14 @@ public class Server extends Thread {
 				/**
 				 * create a new {@link SocketServer} object for each connection
 				 * this will allow multiple client connections
-				 ***\*
+				 ***/
 				new Server(server.accept());
 			}
 		} catch (IOException ex) {
 			System.out.println("Unable to start server.");
 			ex.printStackTrace();
 		} finally {
+			System.out.println("Zamykam serwer");
 			try {
 				if (server != null)
 					server.close();
@@ -76,5 +80,5 @@ public class Server extends Thread {
 				ex.printStackTrace();
 			}
 		}
-	} */
+	} 
 }
