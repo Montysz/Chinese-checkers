@@ -13,12 +13,12 @@ import chinese_checkers.serwer.Tile;
 
 
 public class Draw extends JFrame implements MouseListener{
-
+private Board currentBoard;
  public static void main(String[] args) 
     {
-    
+	 	Board Tmp = null;
     	try {
-			 Board Tmp = new Board(6);
+			Tmp = new Board(6);
 		} 
     	catch (wrongNumberOfPlayersException e) {
 			
@@ -26,9 +26,11 @@ public class Draw extends JFrame implements MouseListener{
 		}
     	
 
-    	Draw draw = new Draw();
+    	Draw draw = new Draw(Tmp);
        draw.setVisible(true);
        draw.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+       draw.setAlwaysOnTop(true);//TODO: do wywalenia
+       draw.setResizable(false);
     }
 
 	private int numberOfPlayers = 6;
@@ -42,10 +44,10 @@ public class Draw extends JFrame implements MouseListener{
 	//zwraca int
 //	int b = Tmp.gameBoard[1][2].getX();
 
-	public Draw() {
+	public Draw(Board board) {
 		
 		   setSize(500, 500);
-	       
+	       this.currentBoard = board;
 	       
 	        addMouseListener(this);
 	}
@@ -53,7 +55,7 @@ public class Draw extends JFrame implements MouseListener{
 
     public void paint(Graphics g)
     {
-        drawBoard(g, Tmp);
+        drawBoard(g, this.currentBoard);
     }
     
     public void drawLine(Graphics2D g2)
