@@ -10,18 +10,33 @@ import javax.swing.JFrame;
 import chinese_checkers.Exceptions.wrongNumberOfPlayersException;
 import chinese_checkers.serwer.Board;
 import chinese_checkers.serwer.Tile;
-//class of Client
 
 
 public class Draw extends JFrame implements MouseListener{
 
+ public static void main(String[] args) 
+    {
+    
+    	try {
+			 Board Tmp = new Board(6);
+		} 
+    	catch (wrongNumberOfPlayersException e) {
+			
+			e.printStackTrace();
+		}
+    	
+
+    	Draw draw = new Draw();
+       draw.setVisible(true);
+       draw.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
 
 	private int numberOfPlayers = 6;
 	//try catch
 	//Board board = new Board(numberOfPlayers);
 
 
-	private static Board Tmp;
+	private Board Tmp;
 //	Tile a = Tmp.gameBoard[1][2];
 
 	//zwraca int
@@ -35,21 +50,7 @@ public class Draw extends JFrame implements MouseListener{
 	        addMouseListener(this);
 	}
 
-    public static void main(String[] args) 
-    {
-    
-    	try {
-			Tmp = new Board(6);
-		} catch (wrongNumberOfPlayersException e) {
-			
-			e.printStackTrace();
-		}
-    	
 
-    	Draw draw = new Draw();
-       draw.setVisible(true);
-       draw.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
     public void paint(Graphics g)
     {
         drawBoard(g, Tmp);
@@ -108,12 +109,14 @@ public class Draw extends JFrame implements MouseListener{
             }
         }
     }
-        public void Field(int x, int y)
+    private int	xSize = 12;
+    private int	ySize = 16;
+     public void Field(int x, int y)
       {
         if(x > 50 && x < 450 && y > 50 && y < 450)
           {               
-                //xSize= y/50-1;
-                //ySize=x/50-1;                
+                setxSize(y/50-1);
+                setySize(x/50-1);                
             //17 = y/50-1;
             //13 = ySize=x/50-1;   
           }
@@ -149,6 +152,22 @@ public class Draw extends JFrame implements MouseListener{
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public int getxSize() {
+		return xSize;
+	}
+
+	public void setxSize(int xSize) {
+		this.xSize = xSize;
+	}
+
+	public int getySize() {
+		return ySize;
+	}
+
+	public void setySize(int ySize) {
+		this.ySize = ySize;
 	}
 	
 }

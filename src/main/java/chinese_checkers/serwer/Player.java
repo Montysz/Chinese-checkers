@@ -11,7 +11,7 @@ import java.util.List;
 public class Player {
 	public int playerId;
 	private List<Tile> playerPieces;
-	
+	//private ClientSocket;
 	public Player(int playerId)
 	{
 		this.playerId = playerId;
