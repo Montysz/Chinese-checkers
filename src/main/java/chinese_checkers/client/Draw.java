@@ -5,11 +5,11 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
 import javax.swing.JFrame;
 
 import chinese_checkers.Exceptions.wrongNumberOfPlayersException;
 import chinese_checkers.serwer.Board;
-import chinese_checkers.serwer.Tile;
 
 
 public class Draw extends JFrame implements MouseListener{
@@ -26,122 +26,103 @@ private int ySize;
        draw.setResizable(false);
     }
 
-
-
-
-//	Tile a = Tmp.gameBoard[1][2];
-
-	//zwraca int
-//	int b = Tmp.gameBoard[1][2].getX();
-
-	public Draw(Board board) {
-		
+	public Draw(Board board) 
+	{	
 		   setSize(1000, 1000);
-	       this.currentBoard = board;
-	       
-	        addMouseListener(this);
+	       this.currentBoard = board;      
+	       addMouseListener(this);
 	}
-
 
     public void paint(Graphics g)
     {
         drawBoard(g, this.currentBoard);
+        drawPlayers(g, this.currentBoard);
     }
-    
-    public void drawLine(Graphics2D g2)
-    {
-        for(int j=0; j<9; j++)
-            {
-                g2.setColor(Color.red);
-                g2.fillRect(50, 50, 407, 407);
-            }
-        
-    }
-    
+
     public void drawBoard(Graphics g, Board gameboard)
     { 	
     	Image img= createImage(getSize().width, getSize().height);
-        Graphics2D g2= (Graphics2D)img.getGraphics();
-        drawLine(g2);
-     
-        
+        Graphics2D g2= (Graphics2D)img.getGraphics(); 
         for(int i=0;i<17;i++)
         {
             for(int j=0; j<13;j++)
             {
-                
+                int r = 50;
+                if(gameboard.getBoard()[i][j].getPlayerId() != -1)
+                {                  
+                    g2.setColor(Color.blue);                         
+                    g2.fillRect(j+r+j*r+(i%2)*r/2, i+r+i*r, r , r);                     
+                }
+            }
+        }     
+        g.drawImage(img, 0, 0, this);
+    	}
+    public void drawPlayers(Graphics g, Board gameboard) {
+    	Image img= createImage(getSize().width, getSize().height);
+        Graphics2D g2= (Graphics2D)img.getGraphics();
+        for(int i=0;i<17;i++)
+        {
+            for(int j=0; j<13;j++)
+            {
+                int r = 50;
                 switch(gameboard.getBoard()[i][j].getPlayerId())
                 {
-                    case -1:
+                    
+                	case -1:
                         g2.setColor(Color.black);
-                        g2.fillRect(j+50+j*50, i+50+i*50, 50, 50);
-                        g2.setColor(Color.black);
+                        g2.fillOval(j+r+j*r+(i%2)*r/2, i+r+i*r, r , r); 
                         break;
                     case 0:
                         g2.setColor(Color.white);
-                        g2.fillRect(j+50+j*50, i+50+i*50, 50, 50);
-                        g2.setColor(Color.white);                                             
+                        g2.fillOval(j+r+j*r+(i%2)*r/2, i+r+i*r, r , r);                                         
                         break;  
                     case 1:
                         g2.setColor(Color.red);                         
-                        g2.fillRect(j+50+j*50, i+50+i*50, 50, 50);
-                        g2.setColor(Color.red);
+                        g2.fillOval(j+r+j*r+(i%2)*r/2, i+r+i*r, r , r); 
                         break;  
                     case 2:
                         g2.setColor(Color.pink);
-                        g2.fillRect(j+50+j*50, i+50+i*50, 50, 50);
-                        g2.setColor(Color.pink);                                     
+                        g2.fillOval(j+r+j*r+(i%2)*r/2, i+r+i*r, r , r);                                   
                         break;
                     case 3:
                         g2.setColor(Color.green);
-                        g2.fillRect(j+50+j*50, i+50+i*50, 50, 50);
-                        g2.setColor(Color.LIGHT_GRAY);
+                        g2.fillOval(j+r+j*r+(i%2)*r/2, i+r+i*r, r , r); 
                         break;
                     case 4:
                         g2.setColor(Color.blue);
-                        g2.fillRect(j+50+j*50, i+50+i*50, 50, 50);
-                        g2.setColor(Color.red);                                             
+                        g2.fillOval(j+r+j*r+(i%2)*r/2, i+r+i*r, r , r);                                         
                         break;  
                     case 5:
                         g2.setColor(Color.yellow);
-                        g2.fillRect(j+50+j*50, i+50+i*50, 50, 50);
-                        g2.setColor(Color.red);                                             
+                        g2.fillOval(j+r+j*r+(i%2)*r/2, i+r+i*r, r , r);                                           
                         break;  
                     case 6:
                         g2.setColor(Color.CYAN);
-                        g2.fillRect(j+50+j*50, i+50+i*50, 50, 50);
-                        g2.setColor(Color.red);                                             
-                        break;  
-                        
-                }
+                        g2.fillOval(j+r+j*r+(i%2)*r/2, i+r+i*r, r , r);                                          
+                        break; 
+
             }
-  }
-	     
+       }
+     }
         g.drawImage(img, 0, 0, this);
-
     }
-
      public void Field(int x, int y)
       {
         if(x > 50 && x < 450 && y > 50 && y < 450)
           {               
-                xSize=(y/50-1);
-                ySize=(x/50-1);                
-            //17 = y/50-1;
-            //13 = ySize=x/50-1;   
+                setxSize((y/50-1));
+                setySize((x/50-1));                 
           }
         }  
-
-   
+     
     public void mouseClicked1(MouseEvent e) 
     {
         Field(e.getX(), e.getY());       
-        repaint();
-        
+        repaint();        
     }	 
     public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+	
 	}
 
 	public void mousePressed(MouseEvent e) {
@@ -160,11 +141,22 @@ private int ySize;
 	}
 
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub	
 	}
 
+	public int getySize() {
+		return ySize;
+	}
 
+	public void setySize(int ySize) {
+		this.ySize = ySize;
+	}
+
+	public int getxSize() {
+		return xSize;
+	}
+
+	public void setxSize(int xSize) {
+		this.xSize = xSize;
+	}
 }
-
-
