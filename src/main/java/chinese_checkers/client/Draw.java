@@ -26,6 +26,7 @@ private int ySize;
        draw.setResizable(false);
     }
 
+ 
 	public Draw(Board board) 
 	{	
 		   setSize(1000, 1000);
