@@ -5,8 +5,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 /**
@@ -16,69 +20,27 @@ import java.net.Socket;
  */
 
 public class Server extends Thread {
-public static final int PORT_NUMBER = 8888;
-
-	protected Socket socket;
-
-	private Server(Socket socket) {
-		this.socket = socket;
-		System.out.println("New client connected from " + socket.getInetAddress().getHostAddress());
-		start();
-	}
-
-	public void run() {
-		InputStream in = null;
-		OutputStream out = null;
-		try {
-			in = socket.getInputStream();
-			out = socket.getOutputStream();
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));
-			String request;
-			while ((request = br.readLine()) != null) {
-				System.out.println("Message received:" + request);
-				request += '\n';
-				out.write(request.getBytes());
-				if(request =="Cycki\n") {
-					socket.close();
-				}
-			}
-
-		} catch (IOException ex) {
-			System.out.println("Unable to get streams from client");
-		} finally {
-			try {
-				in.close();
-				out.close();
-				socket.close();
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			}
-		}
-	}
-
-	public static void main(String[] args) {
-		System.out.println("Socke Cycki tServer Example");
-		ServerSocket server = null;
-		try {
-			server = new ServerSocket(PORT_NUMBER);
-			while (true) {
-				/**
-				 * create a new {@link SocketServer} object for each connection
-				 * this will allow multiple client connections
-				 ***/
-				new Server(server.accept());
-			}
-		} catch (IOException ex) {
-			System.out.println("Unable to start server.");
-			ex.printStackTrace();
-		} finally {
-			System.out.println("Zamykam serwer");
-			try {
-				if (server != null)
-					server.close();
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			}
+	
+	private static ArrayList<ClientHandler> clients = new ArrayList<ClientHandler>();
+	private static int numberOfConnections = 0;
+	private static boolean gameStarted = false;
+	private static ExecutorService pool = Executors.newFixedThreadPool(6);
+	
+	public static void main(String[] args) throws IOException {
+		ServerSocket listener = new ServerSocket(2137);
+		
+		System.out.println("[SERVER] Starting server...");
+		
+		while (true)
+		{
+			System.out.println("[SERVER] Waiting for client connection");
+			Socket client = listener.accept();
+			numberOfConnections++;
+			System.out.println("[SERVER] Connected client number " + numberOfConnections);
+			ClientHandler clientThread = new ClientHandler(client);
+			clients.add(clientThread);
+			
+			pool.execute(clientThread);
 		}
 	} 
 }

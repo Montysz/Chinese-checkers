@@ -199,7 +199,7 @@ public class Board {
 	 * @param players
 	 * 	number of players
 	 */
-	public Board(int boardSize, int players)
+	public Board(int boardSize, int numberOfPlayers)
 	{
 		//TODO: implement constructor for difrent boards and games 
 	}

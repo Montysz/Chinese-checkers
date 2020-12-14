@@ -92,7 +92,20 @@ public class BoardTest {
 		assertEquals(2,gameBoard.movePiece(9, 4, 7, 4, 2));
 		assertEquals(2,gameBoard.movePiece(7, 4, 5, 4, 2));
 		assertEquals(0, gameBoard.findTile(7, 4).getPlayerId());
+		
 		assertEquals(2, gameBoard.findTile(5, 4).getPlayerId());
+	}
+	@Test(expected = invalidMoveException.class)
+	public void testJumpMoveChainBreak() throws wrongNumberOfPlayersException, occupiedException, invalidMoveException, outOfTheBoardException, cantGetOutOfTheJaillException
+	{
+		Board gameBoard = new Board(6);
+		gameBoard.movePiece(7, 3, 8, 4, 1);
+		gameBoard.movePiece(6, 3, 6, 4, 1);
+		gameBoard.movePiece(10, 7, 9, 7, 2);
+		assertEquals(2,gameBoard.movePiece(9, 4, 7, 4, 2));
+		assertEquals(2,gameBoard.movePiece(7, 4, 5, 4, 2));
+		gameBoard.movePiece(10, 6, 9, 8, 2);
+		
 	}
 	/*
 	 * tests if piece in winning position can escape it 
