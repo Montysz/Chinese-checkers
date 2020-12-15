@@ -23,7 +23,7 @@ public class BoardTest {
 	@Test
 	public void testNumberOfPlayers() throws wrongNumberOfPlayersException {
 		Board gameBoard = new Board(6);
-		assertEquals(6, gameBoard.numberOfPlayers);
+		assertEquals(6, gameBoard.getNumberOfPlayers());
 	}
 	@Test(expected = wrongNumberOfPlayersException.class)
 	public void testWrongNumberOfPlayersException1() throws wrongNumberOfPlayersException

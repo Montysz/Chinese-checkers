@@ -19,8 +19,8 @@ public class Board {
 	/**
 	 * board with players' pices
 	 */
-	protected Tile[][] gameBoard;
-	public int numberOfPlayers;
+	private Tile[][] gameBoard;
+	private int numberOfPlayers;
 	private Player[] playerList;
 	/**
 	 * 
@@ -273,5 +273,9 @@ public class Board {
 	public Tile findTile(int x, int y)
 	{
 		return this.gameBoard[y][x];
+	}
+	public int getNumberOfPlayers()
+	{
+		return this.numberOfPlayers;
 	}
 }

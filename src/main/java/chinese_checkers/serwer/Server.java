@@ -27,7 +27,7 @@ public class Server extends Thread {
 	private static ExecutorService pool = Executors.newFixedThreadPool(6);
 	
 	public static void main(String[] args) throws IOException {
-		ServerSocket listener = new ServerSocket(2137);
+		ServerSocket listener = new ServerSocket(8080);
 		
 		System.out.println("[SERVER] Starting server...");
 		
@@ -42,5 +42,7 @@ public class Server extends Thread {
 			
 			pool.execute(clientThread);
 		}
+		
+		
 	} 
 }
