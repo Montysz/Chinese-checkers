@@ -10,12 +10,14 @@ public class ClientHandler implements Runnable{
 	private Socket client;
 	private BufferedReader in;
 	private PrintWriter out;
-	
-	public ClientHandler(Socket clientSocket) throws IOException
+	private int playerId;
+	public ClientHandler(Socket clientSocket, int playerId) throws IOException
 	{
 		this.client = clientSocket;
 		out = new PrintWriter(client.getOutputStream(), true);
 		in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+		out.println("playerId: " + playerId);
+		this.playerId = playerId;
 	}
 	public void run() {
 		try

@@ -31,13 +31,13 @@ public class Server extends Thread {
 		
 		System.out.println("[SERVER] Starting server...");
 		
-		while (true)
+		while (numberOfConnections<6)
 		{
 			System.out.println("[SERVER] Waiting for client connection");
 			Socket client = listener.accept();
 			numberOfConnections++;
 			System.out.println("[SERVER] Connected client number " + numberOfConnections);
-			ClientHandler clientThread = new ClientHandler(client);
+			ClientHandler clientThread = new ClientHandler(client, numberOfConnections);
 			clients.add(clientThread);
 			
 			pool.execute(clientThread);

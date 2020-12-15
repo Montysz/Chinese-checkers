@@ -20,14 +20,17 @@ public class Client {
 		PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 		while(true)
 		{
-			System.out.print(">");
+			//System.out.print(">");
+			String serverResponse = input.readLine();	
+			System.out.println(serverResponse);
+			
 			String command = keyBoard.readLine();
 			
 			if(command.equals("quit")) break;
 			
 			out.print(command);
 			
-			String serverResponse = input.readLine();	
+			serverResponse = input.readLine();	
 			System.out.println("Server: " + serverResponse);
 		}
 	}
