@@ -1,51 +1,120 @@
 package chinese_checkers.client;
 
-import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.UnknownHostException;
+import java.util.Scanner;
 
-import chinese_checkers.serwer.Board;
-
-//class of Client
 public class Client {
-	private static final String Server_IP = "localhost";
-	private static final int Server_Port = 8080;
-	private static int playerId;
+	Socket socket;
+	DataInputStream DIS;
+	DataOutputStream DOS;
 	
-	public static void main(String[] args) throws UnknownHostException, IOException
+	public static void main(String[] args)
 	{
-		Socket socket = new Socket(Server_IP, Server_Port);
-		BufferedReader input =  new BufferedReader(new InputStreamReader(socket.getInputStream()));
-		BufferedReader keyBoard = new BufferedReader(new InputStreamReader(System.in));
-		PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-		while(true)
-		{
-			String serverResponse = input.readLine();	
-			if(!serverResponse.equals(""))
-			{
-				System.out.println("[Server]" + serverResponse);
-				if(serverResponse.startsWith("PlayerId:"))
-				{
-					playerId = Integer.parseInt(serverResponse.substring(serverResponse.indexOf(" ")));
-				}
-				
-			}
-			String command = keyBoard.readLine();
-			if(!command.equals(""))
-			{
-				if(command.equals("quit")) break;
-				out.print(command);
-			}
-		}
-		out.println("quit");
-		System.out.println("quitting");
-		input.close();
-		keyBoard.close();
+		new Client();
 	}
 
+	public Client()
+	{
+		try
+		{
+			socket = new Socket("localhost", 8080);
+			DIS = new DataInputStream(socket.getInputStream());
+			DOS = new DataOutputStream(socket.getOutputStream());
+			
+			listenForInput();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+ 	}
+	
+	public void listenForInput()
+	{
+		Scanner console = new Scanner(System.in);
+		while(true)
+		{
+			while(!console.hasNext())
+			{
+				try
+				{
+					Thread.sleep(1);
+				} catch (InterruptedException e)
+				{
+					e.printStackTrace();
+				}
+			}
+			String input = console.nextLine();
+			if(input.equals("quit"))
+			{
+				try
+				{
+					DOS.writeUTF(input);
+					DOS.flush();
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+				break;
+			}
+			
+			try
+			{
+				DOS.writeUTF(input);
+				DOS.flush();
+				
+				while(DIS.available() == 0)
+				{
+					try
+					{
+						Thread.sleep(1);
+					} catch (InterruptedException e)
+					{
+						e.printStackTrace();
+					}
+				}
+				
+				String reply = DIS.readUTF();
+				if(reply.startsWith("curMove"))
+				{
+					System.out.println("Its player "+ reply.substring(reply.indexOf(" ")) + " turn" );
+				}
+				else if(reply.startsWith("ping"))
+				{
+					DOS.writeUTF("pong");
+					DOS.flush();
+				}
+				else if(reply.startsWith(""))
+				{
+					
+				}
+				else
+				{
+					System.err.println("cannod handle \"" + reply + "\" reply from the server");
+				}
+					
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+			
+		}
+		try
+		{
+			DOS.close();
+			DIS.close();
+			socket.close();
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+	}
 }
 
 

@@ -1,6 +1,8 @@
 package chinese_checkers.serwer;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -12,6 +14,8 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import chinese_checkers.Exceptions.wrongNumberOfPlayersException;
+
 
 /**
  * 
@@ -21,28 +25,70 @@ import java.util.concurrent.Executors;
 
 public class Server extends Thread {
 	
-	private static ArrayList<ClientHandler> clients = new ArrayList<ClientHandler>();
-	private static int numberOfConnections = 0;
-	private static boolean gameStarted = false;
-	private static ExecutorService pool = Executors.newFixedThreadPool(6);
-	
-	public static void main(String[] args) throws IOException {
-		ServerSocket listener = new ServerSocket(8080);
+	ServerSocket serverSocket;
+	ArrayList<ClientHandler> clients = new ArrayList<ClientHandler>();
+	boolean shoutldRun = true;
+	boolean gameStarted = false;
+	boolean gameFinished = false;
+	int numberOfClients = 0;
+	Board gameBoard = null;
+	public static void main(String[] args)
+	{
+		new Server();
+	}
 		
-		System.out.println("[SERVER] Starting server...");
-		
-		while (numberOfConnections<6)
+	public Server()
+	{
+		try
 		{
-			System.out.println("[SERVER] Waiting for client connection");
-			Socket client = listener.accept();
-			numberOfConnections++;
-			System.out.println("[SERVER] Connected client number " + numberOfConnections);
-			ClientHandler clientThread = new ClientHandler(client, numberOfConnections);
-			clients.add(clientThread);
-			
-			pool.execute(clientThread);
+			serverSocket = new ServerSocket(8080);
+			System.out.println("[Server] Starting server...");
+			while(shoutldRun)
+			{
+				System.out.println("[Server] looking for players to join");
+				numberOfClients++;
+				Socket s = serverSocket.accept();
+				System.out.println("[Server] new player with id " + numberOfClients + " has joing the game");
+				ClientHandler client = new ClientHandler(s, this, numberOfClients);
+				client.start();
+				clients.add(client);
+				if(gameStarted)
+				{
+					
+					try
+					{
+						this.gameBoard = new Board(numberOfClients);
+					}
+					catch (wrongNumberOfPlayersException e)
+					{
+						System.err.println("Cannot start the game with " + numberOfClients + " players");
+						gameStarted = false;
+					}
+					while(!gameFinished && gameBoard!=null)
+					{
+						
+					}
+				}
+			}
 		}
-		
-		
-	} 
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
