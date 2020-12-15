@@ -37,7 +37,8 @@ public class ClientHandler extends Thread{
 		{
 			DOS.writeUTF(text);
 			DOS.flush();
-		} catch (IOException e)
+		}
+		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
@@ -58,7 +59,7 @@ public class ClientHandler extends Thread{
 			DIS = new DataInputStream(socket.getInputStream());
 			DOS = new DataOutputStream(socket.getOutputStream());
 			
-			sendStringToClient("Welcome, your id is: " + clientId );
+			sendStringToClient("Welcome to new client with id  " + clientId );
 			
 			while(shouldRun)
 			{
@@ -77,10 +78,7 @@ public class ClientHandler extends Thread{
 				String text = DIS.readUTF();
 				if(text.startsWith("quit"))
 				{
-					if(!hasWon)
-					{
-						
-					}
+					System.out.println("[Server] Player with id " + clientId + " has left");
 				}
 				else if(text.startsWith("move"))
 				{
@@ -114,6 +112,14 @@ public class ClientHandler extends Thread{
 						sendStringToClient("Invalid move, cannot move out of the winning tile");
 						e.printStackTrace();
 					}
+				}
+				else if(text.startsWith("hello"))
+				{
+					sendStringToClient("Welcome, your id is: " + clientId );
+				}
+				else if(text.startsWith("ALL"))
+				{
+					sendStringToAllClients(text.substring(4));
 				}
 				else
 				{

@@ -88,13 +88,9 @@ public class Client {
 					DOS.writeUTF("pong");
 					DOS.flush();
 				}
-				else if(reply.startsWith(""))
-				{
-					
-				}
 				else
 				{
-					System.err.println("cannod handle \"" + reply + "\" reply from the server");
+					System.out.println(reply);
 				}
 					
 			}
@@ -106,6 +102,7 @@ public class Client {
 		}
 		try
 		{
+			console.close();
 			DOS.close();
 			DIS.close();
 			socket.close();
