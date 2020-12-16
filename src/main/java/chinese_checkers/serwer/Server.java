@@ -45,16 +45,19 @@ public class Server extends Thread {
 			System.out.println("[Server] Starting server...");
 			while(shoutldRun)
 			{
-				System.out.println("[Server] looking for players to join");
-				numberOfClients++;
-				Socket s = serverSocket.accept();
-				System.out.println("[Server] new player with id " + numberOfClients + " has joing the game");
-				ClientHandler client = new ClientHandler(s, this, numberOfClients);
-				client.start();
-				clients.add(client);
-				if(gameStarted)
+				if(numberOfClients < 6 && !gameStarted)
 				{
-					
+					System.out.println("[Server] looking for players to join");
+					numberOfClients++;
+					Socket s = serverSocket.accept();
+					System.out.println("[Server] new player with id " + numberOfClients + " has joing the game");
+					ClientHandler client = new ClientHandler(s, this, numberOfClients);
+					client.start();
+					clients.add(client);
+				}
+				else if(gameStarted)
+				{
+					System.out.println("[Server] trying to start the game with " + numberOfClients + " players");
 					try
 					{
 						this.gameBoard = new Board(numberOfClients);
@@ -63,6 +66,10 @@ public class Server extends Thread {
 					{
 						System.err.println("Cannot start the game with " + numberOfClients + " players");
 						gameStarted = false;
+					}
+					if(!gameFinished && gameBoard!=null)
+					{
+						System.out.println("[Server] game has succesfuly started with " + numberOfClients + " players");
 					}
 					while(!gameFinished && gameBoard!=null)
 					{

@@ -10,7 +10,6 @@ public class Client {
 	Socket socket;
 	DataInputStream DIS;
 	DataOutputStream DOS;
-	
 	public static void main(String[] args)
 	{
 		new Client();
@@ -34,34 +33,10 @@ public class Client {
 	
 	public void listenForInput()
 	{
-		Scanner console = new Scanner(System.in);
+		
 		while(true)
 		{
-			while(!console.hasNext())
-			{
-				try
-				{
-					Thread.sleep(1);
-				} catch (InterruptedException e)
-				{
-					e.printStackTrace();
-				}
-			}
-			String input = console.nextLine();
-			if(input.equals("quit"))
-			{
-				try
-				{
-					DOS.writeUTF(input);
-					DOS.flush();
-				}
-				catch (IOException e)
-				{
-					e.printStackTrace();
-				}
-				break;
-			}
-			
+			String input ="ping";
 			try
 			{
 				DOS.writeUTF(input);
@@ -88,6 +63,17 @@ public class Client {
 					DOS.writeUTF("pong");
 					DOS.flush();
 				}
+				else if(reply.startsWith("readyCheck"))
+				{
+					String keyBoard = listenForKeyBoard();
+					DOS.writeUTF(keyBoard);
+					DOS.flush();
+					if(keyBoard.startsWith("quit"))break;
+				}
+				else if(reply.startsWith("pong"))
+				{
+					
+				}
 				else
 				{
 					System.out.println(reply);
@@ -102,7 +88,6 @@ public class Client {
 		}
 		try
 		{
-			console.close();
 			DOS.close();
 			DIS.close();
 			socket.close();
@@ -111,6 +96,23 @@ public class Client {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public String listenForKeyBoard()
+	{
+		System.out.println("Input needed:");
+		Scanner console = new Scanner(System.in);
+		while(!console.hasNext())
+		{
+			try
+			{
+				Thread.sleep(1);
+			} catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return console.nextLine();
 	}
 }
 

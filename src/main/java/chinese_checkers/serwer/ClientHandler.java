@@ -23,6 +23,7 @@ public class ClientHandler extends Thread{
 	boolean hasWon = false;
 	boolean shouldRun = true;
 	boolean isReady = false;
+	boolean needInput = false;
 	public ClientHandler(Socket socket, Server server, int clientId)
 	{
 		super("ServerConnectionThread");
@@ -79,6 +80,15 @@ public class ClientHandler extends Thread{
 				if(text.startsWith("quit"))
 				{
 					System.out.println("[Server] Player with id " + clientId + " has left");
+					server.numberOfClients--;
+					server.clients.remove(this);
+					int i = 1;
+					for(ClientHandler c : server.clients)
+					{
+						c.clientId = i;
+						i++;
+					}
+					break;
 				}
 				else if(text.startsWith("move"))
 				{
@@ -121,13 +131,28 @@ public class ClientHandler extends Thread{
 				{
 					sendStringToAllClients(text.substring(4));
 				}
+				else if(text.startsWith("ping"))
+				{
+					sendStringToClient("pong");
+				}
+				else if(text.startsWith("ready"))
+				{
+					isReady = true;
+				}
 				else
 				{
 					sendStringToClient(text + " is not a vallid call");
 				}
-				
-				
-				
+				if(server.gameStarted == false)
+				{
+					sendStringToClient("readyCheck");
+					boolean allReady = true;
+					for(ClientHandler c : server.clients)
+					{
+						if(!c.isReady)allReady = false;
+					}
+					if(allReady)server.gameStarted = true;
+				}	
 			}
 			DIS.close();
 			DOS.close();
