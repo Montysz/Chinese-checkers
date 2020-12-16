@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="14.3.0">
-  <zoom_level>11</zoom_level>
+  <zoom_level>6</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>132</x>
-      <y>517</y>
-      <w>418</w>
-      <h>198</h>
+      <x>126</x>
+      <y>504</y>
+      <w>228</w>
+      <h>108</h>
     </coordinates>
     <panel_attributes>chinese_checkers.serwer::Tile
 --
@@ -26,10 +26,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>330</x>
-      <y>264</y>
-      <w>286</w>
-      <h>154</h>
+      <x>234</x>
+      <y>366</y>
+      <w>156</w>
+      <h>84</h>
     </coordinates>
     <panel_attributes>chinese_checkers.serwer::Board
 --
@@ -46,10 +46,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>726</x>
-      <y>264</y>
-      <w>308</w>
-      <h>154</h>
+      <x>450</x>
+      <y>366</y>
+      <w>168</w>
+      <h>84</h>
     </coordinates>
     <panel_attributes>chinese_checkers.serwer::Piece
 --
@@ -66,10 +66,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>11</x>
-      <y>220</y>
-      <w>242</w>
-      <h>99</h>
+      <x>60</x>
+      <y>342</y>
+      <w>132</w>
+      <h>54</h>
     </coordinates>
     <panel_attributes>chinese_checkers.serwer::Player
 --
@@ -83,15 +83,12 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1331</x>
-      <y>22</y>
-      <w>231</w>
-      <h>77</h>
+      <x>708</x>
+      <y>234</y>
+      <w>126</w>
+      <h>42</h>
     </coordinates>
     <panel_attributes>chinese_checkers.client::Client
---
-~a: int
---
 --
 </panel_attributes>
     <additional_attributes/>
@@ -99,10 +96,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>616</x>
-      <y>616</y>
-      <w>242</w>
-      <h>66</h>
+      <x>390</x>
+      <y>558</y>
+      <w>132</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>chinese_checkers.serwer::Rules
 --
@@ -114,10 +111,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>341</x>
-      <y>22</y>
-      <w>242</w>
-      <h>66</h>
+      <x>240</x>
+      <y>234</y>
+      <w>132</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>chinese_checkers.serwer::Server
 --
@@ -129,22 +126,22 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>572</x>
-      <y>33</y>
-      <w>781</w>
-      <h>44</h>
+      <x>366</x>
+      <y>240</y>
+      <w>354</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>lt=&lt;.&gt;
 &lt;&lt;someStereotype&gt;&gt;</panel_attributes>
-    <additional_attributes>10.0;20.0;690.0;20.0</additional_attributes>
+    <additional_attributes>10.0;20.0;570.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>319</x>
-      <y>407</y>
-      <w>33</w>
-      <h>132</h>
+      <x>228</x>
+      <y>444</y>
+      <w>18</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
@@ -152,10 +149,10 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>440</x>
-      <y>77</y>
-      <w>33</w>
-      <h>209</h>
+      <x>294</x>
+      <y>264</y>
+      <w>18</w>
+      <h>114</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;170.0</additional_attributes>
@@ -163,10 +160,10 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>242</x>
-      <y>77</y>
-      <w>121</w>
-      <h>165</h>
+      <x>186</x>
+      <y>264</y>
+      <w>66</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;130.0;90.0;10.0</additional_attributes>
@@ -174,10 +171,10 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>242</x>
-      <y>275</y>
-      <w>110</w>
-      <h>33</h>
+      <x>186</x>
+      <y>372</y>
+      <w>60</w>
+      <h>18</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>80.0;10.0;10.0;10.0</additional_attributes>
@@ -185,10 +182,10 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>605</x>
-      <y>407</y>
-      <w>33</w>
-      <h>231</h>
+      <x>384</x>
+      <y>444</y>
+      <w>18</w>
+      <h>126</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;190.0;10.0;10.0</additional_attributes>
@@ -196,10 +193,10 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>605</x>
-      <y>253</y>
-      <w>143</w>
-      <h>33</h>
+      <x>384</x>
+      <y>360</y>
+      <w>78</w>
+      <h>18</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>110.0;10.0;10.0;10.0</additional_attributes>
@@ -207,10 +204,10 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>715</x>
-      <y>407</y>
-      <w>33</w>
-      <h>231</h>
+      <x>444</x>
+      <y>444</y>
+      <w>18</w>
+      <h>126</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;190.0;10.0;10.0</additional_attributes>
@@ -218,10 +215,10 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>847</x>
-      <y>407</y>
-      <w>33</w>
-      <h>231</h>
+      <x>516</x>
+      <y>444</y>
+      <w>18</w>
+      <h>126</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;190.0</additional_attributes>
@@ -229,10 +226,10 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>605</x>
-      <y>341</y>
-      <w>143</w>
-      <h>33</h>
+      <x>384</x>
+      <y>408</y>
+      <w>78</w>
+      <h>18</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;110.0;10.0</additional_attributes>
@@ -240,12 +237,36 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>539</x>
-      <y>407</y>
-      <w>209</w>
-      <h>132</h>
+      <x>348</x>
+      <y>444</y>
+      <w>114</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;100.0;170.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>714</x>
+      <y>324</y>
+      <w>126</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>Draw
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>762</x>
+      <y>270</y>
+      <w>24</w>
+      <h>66</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>20.0;90.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>

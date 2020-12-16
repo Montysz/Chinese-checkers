@@ -100,11 +100,11 @@ public class Board {
 					}
 					else if (board[i][j] == 2)
 					{
-						this.gameBoard[i][j] = new Tile(j, i, emptyPlayer, 2);
+						this.gameBoard[i][j] = new Tile(j, i, emptyPlayer, 3);
 					}
 					else if (board[i][j] == 3)
 					{
-						this.gameBoard[i][j] = new Tile(j, i, playerList[3], 0);
+						this.gameBoard[i][j] = new Tile(j, i, playerList[2], 0);
 					}
 					else if (board[i][j] == 4)
 					{
@@ -112,11 +112,11 @@ public class Board {
 					}
 					else if (board[i][j] == 5)
 					{
-						this.gameBoard[i][j] = new Tile(j, i, playerList[5], 0);
+						this.gameBoard[i][j] = new Tile(j, i, playerList[3], 0);
 					}
 					else if (board[i][j] == 6)
 					{
-						this.gameBoard[i][j] = new Tile(j, i, emptyPlayer, 5);
+						this.gameBoard[i][j] = new Tile(j, i, emptyPlayer, 2);
 					}
 					else if (board[i][j] == -1)
 					{
@@ -131,19 +131,19 @@ public class Board {
 				{
 					if(board[i][j] == 1)
 					{
-						this.gameBoard[i][j] = new Tile(j, i, playerList[1], 4);
+						this.gameBoard[i][j] = new Tile(j, i, playerList[1], 3);
 					}
 					else if (board[i][j] == 2)
 					{
-						this.gameBoard[i][j] = new Tile(j, i, playerList[2], 5);
+						this.gameBoard[i][j] = new Tile(j, i, playerList[2], 4);
 					}
 					else if (board[i][j] == 4)
 					{
-						this.gameBoard[i][j] = new Tile(j, i, playerList[4], 1);
+						this.gameBoard[i][j] = new Tile(j, i, playerList[3], 1);
 					}
 					else if (board[i][j] == 5)
 					{
-						this.gameBoard[i][j] = new Tile(j, i, playerList[5], 2);
+						this.gameBoard[i][j] = new Tile(j, i, playerList[4], 2);
 					}
 					else if (board[i][j] == -1)
 					{

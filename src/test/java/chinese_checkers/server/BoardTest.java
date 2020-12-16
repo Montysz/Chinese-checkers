@@ -65,10 +65,16 @@ public class BoardTest {
 	}
 	
 	@Test(expected = invalidMoveException.class)
-	public void testBasicMove4() throws wrongNumberOfPlayersException, occupiedException, invalidMoveException, outOfTheBoardException, cantGetOutOfTheJaillException
+	public void testBasicMove4() throws  occupiedException, invalidMoveException, outOfTheBoardException, cantGetOutOfTheJaillException, wrongNumberOfPlayersException
 	{
 		Board gameBoard = new Board(6);
 		gameBoard.movePiece(7, 3, 6, 4, 1);
+	}
+	@Test
+	public void testBasicMove5() throws  occupiedException, invalidMoveException, outOfTheBoardException, cantGetOutOfTheJaillException, wrongNumberOfPlayersException
+	{
+		Board gameBoard = new Board(3);
+		gameBoard.movePiece(1, 9, 2, 8, 3);
 	}
 	/*
 	 * tests related to jump moves

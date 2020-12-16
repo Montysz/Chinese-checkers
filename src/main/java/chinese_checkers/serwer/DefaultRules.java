@@ -35,7 +35,10 @@ public class DefaultRules implements Rules {
 		this.ySize = y;
 		this.numberOfPieces = numberOfPieces;
 	}
-	
+	/**
+	 * returns 1 if its a basic move
+	 * and 2 if its a jump move
+	 */
 	public int movePiece(int x, int y, int newX, int newY, int playerId, Tile[][] gameBoard) throws occupiedException, invalidMoveException, outOfTheBoardException, cantGetOutOfTheJaillException
 	{
 		if(newX > xSize || newY > ySize)throw new outOfTheBoardException();
@@ -172,7 +175,7 @@ public class DefaultRules implements Rules {
 		{
 			for(int j = 0; j < xSize; j++)
 			{
-				if(gameBoard[i][j].getWinningId() == playerId)
+				if(gameBoard[i][j].getWinningId() == playerId && gameBoard[i][j].getPlayerId() == playerId)
 				{
 					count++;
 				}

@@ -1,8 +1,7 @@
 package chinese_checkers.serwer;
 
 import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -15,164 +14,213 @@ import chinese_checkers.Exceptions.occupiedException;
 import chinese_checkers.Exceptions.outOfTheBoardException;
 
 public class ClientHandler extends Thread{
-	Socket socket;
 	Server server;
-	DataInputStream DIS;
-	DataOutputStream DOS;
-	int clientId;
-	boolean hasWon = false;
-	boolean shouldRun = true;
+	Socket client;
+	BufferedReader in;
+	PrintWriter out;
+	final int delay = 60;
 	boolean isReady = false;
-	boolean needInput = false;
-	public ClientHandler(Socket socket, Server server, int clientId)
+	boolean hasWon = false;
+	int clientId;
+	boolean jumpMove = false;
+	public ClientHandler(Socket client, Server server, int id)
 	{
-		super("ServerConnectionThread");
-		this.socket = socket;
+		this.client = client;
 		this.server = server;
-		this.clientId = clientId;
+		this.clientId = id;
 	}
-	
-	public void sendStringToClient(String text)
+	public void SendToAll(String text)
+	{
+		for(ClientHandler c : server.clients)
+		{
+			c.SendToOne(text);
+		}
+	}
+	public void SendToOne(String text)
+	{
+		out.println(text);
+		out.flush();
+	}
+	public void run()
 	{
 		try
 		{
-			DOS.writeUTF(text);
-			DOS.flush();
+			in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+			out = new PrintWriter(client.getOutputStream());
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
-	}
-	
-	public void sendStringToAllClients(String text)
-	{
-		for(ClientHandler s : server.clients)
+		SendToOne("Welcome new user, your id is " + clientId);
+		while(true)
 		{
-			s.sendStringToClient(text);
-		}
-	}
-	
-	public void run()
-	{
-		try
-		{
-			DIS = new DataInputStream(socket.getInputStream());
-			DOS = new DataOutputStream(socket.getOutputStream());
-			
-			sendStringToClient("Welcome to new client with id  " + clientId );
-			
-			while(shouldRun)
+			try
 			{
-				while(DIS.available() == 0)
+				if(in.ready())
 				{
-					try
+					String input = in.readLine();
+					System.out.println("dosta³em wiadomosc od klienta: " + input);
+					if(input.startsWith("ALL"))
 					{
-						Thread.sleep(1);
+						SendToAll("Player with id: " + clientId + " says:" + input.substring(input.indexOf(" ")));
 					}
-					catch (InterruptedException e)
+					else if(input.startsWith("quit"))
 					{
-						e.printStackTrace();
+						System.out.println("[Server] Player has left");
+						System.out.println("[Server] Current number of players: " + server.numberOfClients);
+						server.clients.remove(clientId - 1);
+						int i = 1;
+						for(ClientHandler c : server.clients)
+						{
+							c.clientId = i;
+							c.SendToOne("Player has left, your new Id is: " + i);
+							i++;
+						}
+						server.numberOfClients = i - 1;
+						System.out.println("[Server] Uppdated number of players: " + server.numberOfClients);
+					}
+					else if(input.startsWith("ready"))
+					{
+						isReady = true;
+						SendToOne("You are now Ready to start the game");
+						boolean ready = true;
+						for(ClientHandler c : server.clients)
+						{
+							if(!c.isReady)ready = false;
+						}
+						if(ready)server.allReady = true;
+					}
+					else if(input.startsWith("skip"))
+					{
+						if(server.curMove == clientId)
+						{
+							SendToOne("Player has skipped his turn");
+							nextPlayerMove();
+						}
+						else
+						{
+							SendToOne("Cant skip, its not your move");
+						}
+					}
+					else if(input.startsWith("move"))
+					{
+						if(!server.gameStarted)
+						{
+							SendToOne("The game havent started yet, sorry :(");
+						}
+						else
+						{
+							if(clientId != server.curMove)
+							{
+								SendToOne("Sorry, its not your turn to move");
+							}
+							else if(hasWon)
+							{
+								SendToOne("Cant move, you allready won");
+							}
+							else
+							{
+								int index = input.indexOf(" ") + 1;
+								String data = input.substring(index);
+								String[] values = data.split(" ");
+								try
+								{
+									int x = Integer.parseInt(values[0]);
+									int y = Integer.parseInt(values[1]);
+									int newX = Integer.parseInt(values[2]);
+									int newY = Integer.parseInt(values[3]);
+									int playerId = clientId;
+									SendToOne(x + " " + y + " " + newX + " " + newY + " " + playerId );
+									try
+									{
+										int val = server.gameBoard.movePiece(x, y, newX, newY, playerId);
+										if(val == 2)jumpMove = true;
+										if(server.gameBoard.hasWon(playerId))
+										{
+											hasWon = true;
+											SendToAll("player " + playerId + " has won the game as " + server.place + " player");
+											server.place++;
+										}
+										if(!jumpMove)
+										{
+											nextPlayerMove();
+										}
+										else
+										{
+											SendToOne("You can jump again with your piece, if another jump is possible, if not then skip your move");
+											jumpMove = false;
+										}
+									}
+									catch (occupiedException e)
+									{
+										SendToOne("The tile u try to move is allready occupied by another player");
+									}
+									catch (invalidMoveException e)
+									{
+										SendToOne("Your move is against current game rules");
+									}
+									catch (outOfTheBoardException e)
+									{
+										SendToOne("Your move goes out of the board");
+									}
+									catch (cantGetOutOfTheJaillException e)
+									{
+										SendToOne("Cannot move your piece out of the winning squares");
+									}
+								}
+								catch (Exception e)
+								{
+									SendToOne("Wrong format of date");
+								}
+								
+							}
+						}
+					}
+					else
+					{
+						SendToOne(input + " - cant respond to that");
 					}
 				}
-				
-				String text = DIS.readUTF();
-				if(text.startsWith("quit"))
-				{
-					System.out.println("[Server] Player with id " + clientId + " has left");
-					server.numberOfClients--;
-					server.clients.remove(this);
-					int i = 1;
-					for(ClientHandler c : server.clients)
-					{
-						c.clientId = i;
-						i++;
-					}
-					break;
-				}
-				else if(text.startsWith("move"))
-				{
-					int index = Integer.parseInt(text.substring(text.indexOf(" ")));
-					int x = Integer.parseInt(text.substring(index, index+1));
-					int y = Integer.parseInt(text.substring(index+2, index+3));
-					int newX = Integer.parseInt(text.substring(index+4, index+5));
-					int newY = Integer.parseInt(text.substring(index+6, index+7));
-					int playerId = clientId;
-					try
-					{
-						server.gameBoard.movePiece(x, y, newX, newY, playerId);
-					}
-					catch (occupiedException e) 
-					{
-						sendStringToClient("Invalid move, the space is occupied");
-						e.printStackTrace();
-					}
-					catch (invalidMoveException e)
-					{
-						sendStringToClient("Invalid move");
-						e.printStackTrace();
-					}
-					catch (outOfTheBoardException e)
-					{
-						sendStringToClient("Invalid move, cannot move out of the board");
-						e.printStackTrace();
-					} 
-					catch (cantGetOutOfTheJaillException e)
-					{
-						sendStringToClient("Invalid move, cannot move out of the winning tile");
-						e.printStackTrace();
-					}
-				}
-				else if(text.startsWith("hello"))
-				{
-					sendStringToClient("Welcome, your id is: " + clientId );
-				}
-				else if(text.startsWith("ALL"))
-				{
-					sendStringToAllClients(text.substring(4));
-				}
-				else if(text.startsWith("ping"))
-				{
-					sendStringToClient("pong");
-				}
-				else if(text.startsWith("ready"))
-				{
-					isReady = true;
-				}
-				else
-				{
-					sendStringToClient(text + " is not a vallid call");
-				}
-				needInput = false;
-				if(server.gameStarted == false)
-				{
-					if(!needInput && !isReady)
-					{
-						sendStringToClient("readyCheck");
-						needInput = true;
-					}
-					
-					boolean allReady = true;
-					for(ClientHandler c : server.clients)
-					{
-						if(!c.isReady)allReady = false;
-					}
-					if(allReady && server.numberOfClients > 1)server.gameStarted = true;
-				}	
+				Thread.sleep(10);
 			}
-			DIS.close();
-			DOS.close();
-			socket.close();
-		}
-		catch(IOException e)
-		{
-			System.err.println("IO error");
-			System.err.println(e.getStackTrace());
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+			catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
 		}
 	}
 	
-	public void setClientId(int id)
+	public void nextPlayerMove()
 	{
-		this.clientId = id;
+		boolean allWon = true;
+		for(ClientHandler c : server.clients)
+		{
+			if(!c.hasWon)allWon = false;
+		}
+		if(allWon)
+		{
+			SendToAll("Game ended, thanks for playing");
+			server.gameEnded = true;
+		}
+		else
+		{
+			while(true)
+			{
+				server.curMove = (server.curMove%server.numberOfClients) + 1;
+				boolean ok = false;
+				for(ClientHandler c : server.clients)
+				{
+					if(c.clientId == server.curMove && !c.hasWon)ok = true;
+				}
+				if(ok)break;
+			}
+			SendToAll("player " + clientId + " have moved, now its player " + server.curMove + " move" );
+		}
 	}
+	
 }
