@@ -5,7 +5,13 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import javax.swing.JFrame;
 import javax.swing.JFrame;
 
 import chinese_checkers.Exceptions.wrongNumberOfPlayersException;
@@ -20,18 +26,19 @@ private int ySize;
     {	 	
 	   Board Tmp = new Board(6);
        Draw draw = new Draw(Tmp);
-       draw.setVisible(true);
-       draw.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-       draw.setAlwaysOnTop(true);
-       draw.setResizable(false);
+
     }
 
  
 	public Draw(Board board) 
 	{	
-		   setSize(1000, 1000);
+	       setSize(1000, 1000);
 	       this.currentBoard = board;      
 	       addMouseListener(this);
+	       this.setVisible(true);
+	       this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	       this.setAlwaysOnTop(true);
+	       this.setResizable(false);
 	}
 
     public void paint(Graphics g)
@@ -107,35 +114,68 @@ private int ySize;
      }
         g.drawImage(img, 0, 0, this);
     }
-     public void Field(int x, int y)
-      {
-        if(x > 50 && x < 450 && y > 50 && y < 450)
-          {               
-                setxSize((y/50-1));
-                setySize((x/50-1));                 
-          }
-        }  
-     
-    public void mouseClicked1(MouseEvent e) 
-    {
-        Field(e.getX(), e.getY());       
-        repaint();        
-    }	 
-    public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-	
-	}
+   
+    
+    public int  fieldC = 0;
+    public	String xold = "x";
+	public String yold = "y";
+    public String Field(int x, int y)
+      {   	
 
+    	if(((y/50 - 1) % 2 )  ==  1  ) {
+    		 x = x - 25;   		 		 
+    		 String x1 = Integer.toString(((x/50) - 1));
+    		 String y1 = Integer.toString((y/50 - 1));
+    		 //System.out.println(((x/50) - 1) +" "+ ((y/50 - 1)) );
+       		 if(fieldC == 1){  			 
+    			 fieldC = 0;
+    			return xold.concat(yold).concat(x1).concat(y1);
+    		 }
+    		 else {
+    			 fieldC = 1;
+    			 xold = x1;
+    			 yold = y1;
+    			 return null;
+    		 }
+    		 
+    	 }
+    	 else {
+    		 String x1 = Integer.toString(((x/50) - 1));
+    		 String y1 = Integer.toString((y/50 - 1));
+    		 //System.out.println(((x/50) - 1) +" "+ ((y/50 - 1)) );
+    		 if(fieldC == 1){  			 
+    			 fieldC = 0;
+    			 //System.out.print(x1.concat(y1).concat(xold).concat(yold)+ "\n");
+    			 return x1.concat(y1).concat(xold).concat(yold);
+    		
+    		 }
+    		 else {
+    			 fieldC = 1;
+    			 xold = x1;
+    			 yold = y1;
+    			return null;
+    		 }
+    	 }   	    
+      }
+          
+     public void mouseClicked(MouseEvent e) 
+    {
+         
+         
+    }	 
+
+ 
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		Field(e.getX(), e.getY());
+		//System.out.print("\n press:"+  fieldC +"\n");
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+		Field(e.getX(), e.getY()); 
+		//System.out.print("\n reelased:"+  fieldC +"\n");
 
+	}
+	
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
@@ -143,21 +183,5 @@ private int ySize;
 
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub	
-	}
-
-	public int getySize() {
-		return ySize;
-	}
-
-	public void setySize(int ySize) {
-		this.ySize = ySize;
-	}
-
-	public int getxSize() {
-		return xSize;
-	}
-
-	public void setxSize(int xSize) {
-		this.xSize = xSize;
 	}
 }
