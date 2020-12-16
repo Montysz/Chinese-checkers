@@ -143,15 +143,21 @@ public class ClientHandler extends Thread{
 				{
 					sendStringToClient(text + " is not a vallid call");
 				}
+				needInput = false;
 				if(server.gameStarted == false)
 				{
-					sendStringToClient("readyCheck");
+					if(!needInput && !isReady)
+					{
+						sendStringToClient("readyCheck");
+						needInput = true;
+					}
+					
 					boolean allReady = true;
 					for(ClientHandler c : server.clients)
 					{
 						if(!c.isReady)allReady = false;
 					}
-					if(allReady)server.gameStarted = true;
+					if(allReady && server.numberOfClients > 1)server.gameStarted = true;
 				}	
 			}
 			DIS.close();

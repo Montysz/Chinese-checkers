@@ -40,8 +40,12 @@ public class Board {
 		}
 		Player noPlayer = new Player(-1);
 		Player emptyPlayer = new Player(0);
-		this.playerList = new Player[numberOfPlayers+1];
+		this.playerList = new Player[7];
 		for(int i = 1; i <= numberOfPlayers; i++)
+		{
+			this.playerList[i] = new Player(i);
+		}
+		for(int i = numberOfPlayers+1; i <= 6; i++)
 		{
 			this.playerList[i] = new Player(i);
 		}
