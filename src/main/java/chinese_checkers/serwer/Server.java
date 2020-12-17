@@ -84,6 +84,7 @@ public class Server extends Thread {
 					System.out.println("[Server] Succesfuly started a new game");
 					for(ClientHandler c : clients)
 					{
+						c.SendToOne("Initialized with " + numberOfClients + " players");
 						c.SendToOne("Game has Started! its player " + curMove + " turn");
 					}
 				}

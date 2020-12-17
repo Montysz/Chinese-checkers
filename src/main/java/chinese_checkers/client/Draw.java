@@ -5,6 +5,9 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -22,16 +25,20 @@ public class Draw extends JFrame implements MouseListener{
 private Board currentBoard;
 private int xSize;
 private int ySize;
- public static void main(String[] args) throws wrongNumberOfPlayersException 
-    {	 	
-	   Board Tmp = new Board(6);
-       Draw draw = new Draw(Tmp);
-
-    }
-
+private PrintWriter out;
+private Socket socket;
  
-	public Draw(Board board) 
+	public Draw(Board board, Socket socket) 
 	{	
+		   this.socket = socket;
+		   try
+		   {
+			   this.out = new PrintWriter(socket.getOutputStream());
+		   }
+		   catch (IOException e)
+		   {
+			e.printStackTrace();
+		   }
 	       setSize(1000, 1000);
 	       this.currentBoard = board;      
 	       addMouseListener(this);
@@ -58,8 +65,8 @@ private int ySize;
                 int r = 50;
                 if(gameboard.getBoard()[i][j].getPlayerId() != -1)
                 {                  
-                    g2.setColor(Color.blue);                         
-                    g2.fillRect(j+r+j*r+(i%2)*r/2, i+r+i*r, r , r);                     
+                    //g2.setColor(Color.blue);                         
+                    //g2.fillRect(j+r+j*r+(i%2)*r/2, i+r+i*r, r , r);                     
                 }
             }
         }     
@@ -119,7 +126,7 @@ private int ySize;
     public int  fieldC = 0;
     public	String xold = "x";
 	public String yold = "y";
-    public String Field(int x, int y)
+    public void Field(int x, int y)
       {   	
 
     	if(((y/50 - 1) % 2 )  ==  1  ) {
@@ -129,13 +136,14 @@ private int ySize;
     		 //System.out.println(((x/50) - 1) +" "+ ((y/50 - 1)) );
        		 if(fieldC == 1){  			 
     			 fieldC = 0;
-    			return xold.concat(yold).concat(x1).concat(y1);
+    			 out.println("mouse ".concat(xold + " ").concat(yold + " ").concat(x1 + " ").concat(y1));
+				 out.flush(); 
     		 }
     		 else {
     			 fieldC = 1;
     			 xold = x1;
     			 yold = y1;
-    			 return null;
+    			 return;
     		 }
     		 
     	 }
@@ -146,14 +154,15 @@ private int ySize;
     		 if(fieldC == 1){  			 
     			 fieldC = 0;
     			 //System.out.print(x1.concat(y1).concat(xold).concat(yold)+ "\n");
-    			 return x1.concat(y1).concat(xold).concat(yold);
+    			 out.println("mouse ".concat(xold + " ").concat(yold + " ").concat(x1 + " ").concat(y1));
+    			 out.flush(); 
     		
     		 }
     		 else {
     			 fieldC = 1;
     			 xold = x1;
     			 yold = y1;
-    			return null;
+    			return;
     		 }
     	 }   	    
       }
@@ -163,8 +172,6 @@ private int ySize;
          
          
     }	 
-
- 
 	public void mousePressed(MouseEvent e) {
 		Field(e.getX(), e.getY());
 		//System.out.print("\n press:"+  fieldC +"\n");
@@ -177,11 +184,15 @@ private int ySize;
 	}
 	
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub	
+	}
+	
+	public void getCurrentBoard(Board gameBoard)
+	{
+		this.currentBoard = gameBoard;
+		repaint();
 	}
 }

@@ -103,7 +103,7 @@ public class ClientHandler extends Thread{
 							SendToOne("Cant skip, its not your move");
 						}
 					}
-					else if(input.startsWith("move"))
+					else if(input.startsWith("move") || input.startsWith("mouse"))
 					{
 						if(!server.gameStarted)
 						{
@@ -131,10 +131,10 @@ public class ClientHandler extends Thread{
 									int newX = Integer.parseInt(values[2]);
 									int newY = Integer.parseInt(values[3]);
 									int playerId = clientId;
-									SendToOne(x + " " + y + " " + newX + " " + newY + " " + playerId );
 									try
 									{
 										int val = server.gameBoard.movePiece(x, y, newX, newY, playerId);
+										SendToAll("move " + x + " " + y + " " + newX + " " + newY + " " + playerId);
 										if(val == 2)jumpMove = true;
 										if(server.gameBoard.hasWon(playerId))
 										{
