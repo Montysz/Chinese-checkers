@@ -87,7 +87,7 @@ public class DefaultRules implements Rules {
 			}
 			else if(gameBoard[y-1][x].playable() && !gameBoard[y-1][x].isEmpty() && dX == 1 && dY == -2)//jump y-2 x+1
 			{
-				return 1;
+				return 2;
 			}
 			else if((dX == -1) && (dY == -1) )//y-1 x-1
 			{
@@ -97,7 +97,7 @@ public class DefaultRules implements Rules {
 			{
 				return 2;
 			}
-			else if((dX == 1) && (dY == 1) )//y+1 x-1
+			else if((dX == -1) && (dY == 1) )//y+1 x-1
 			{
 				return 1;
 			}
