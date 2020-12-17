@@ -172,6 +172,7 @@ public class ClientHandler extends Thread{
 								catch (Exception e)
 								{
 									SendToOne("Wrong format of date");
+									e.printStackTrace();
 								}
 								
 							}

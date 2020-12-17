@@ -35,7 +35,7 @@ public interface Rules {
 	 * @throws outOfTheBoardException
 	 * 	if the move goes out of the board
 	 */
-	public int movePiece(int x, int y, int newX, int newY, int playerId, Tile[][] gameBoard) throws occupiedException, invalidMoveException, outOfTheBoardException, cantGetOutOfTheJaillException;
+	public int movePiece(int x, int y, int newX, int newY, int playerId, Board gameBoard) throws occupiedException, invalidMoveException, outOfTheBoardException, cantGetOutOfTheJaillException;
 	/**
 	 * 
 	 * @param playerId
@@ -45,5 +45,5 @@ public interface Rules {
 	 * @return
 	 * 	true if a player with given id has won the game, false otherwise
 	 */
-	public boolean hasWon(int playerId, Tile[][] gameBoard);
+	public boolean hasWon(int playerId, Board gameBoard);
 }

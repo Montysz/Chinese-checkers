@@ -15,11 +15,16 @@ public class Board {
 	private final int n = -1;
 	private int xSize;
 	private int ySize;
+	public int lastX = -1;
+	public int lastY = -1;
+	public int lastPlayerId = -1;
+	public int lastOutcome = -1;
+	
 	private Rules curentRule;
 	/**
 	 * board with players' pices
 	 */
-	private Tile[][] gameBoard;
+	public Tile[][] gameBoard;
 	private int numberOfPlayers;
 	private Player[] playerList;
 	/**
@@ -226,10 +231,14 @@ public class Board {
 		int outcome = 0;
 		try
 		{
-			outcome = this.curentRule.movePiece(x, y, newX, newY, playerId, this.gameBoard);
+			outcome = this.curentRule.movePiece(x, y, newX, newY, playerId, this);
 			pId =  this.gameBoard[newY][newX].getPlayerId();
 			this.gameBoard[newY][newX].setPlayerId(gameBoard[y][x].getPlayerId());
 			this.gameBoard[y][x].setPlayerId(pId);
+			this.lastX = newX;
+			this.lastY = newY;
+			this.lastOutcome = outcome;
+			this.lastPlayerId = playerId;
 			return outcome;
 			
 		}
@@ -260,7 +269,7 @@ public class Board {
 	 */
 	public boolean hasWon(int playerId)
 	{
-		return this.curentRule.hasWon(playerId, this.gameBoard);
+		return this.curentRule.hasWon(playerId, this);
 	}
 	public int getXSize()
 	{
