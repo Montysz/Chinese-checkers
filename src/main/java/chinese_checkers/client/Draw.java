@@ -43,7 +43,7 @@ private int ySize;
 
     public void paint(Graphics g)
     {
-        drawBoard(g, this.currentBoard);
+       // drawBoard(g, this.currentBoard);
         drawPlayers(g, this.currentBoard);
     }
 
@@ -129,6 +129,7 @@ private int ySize;
     		 //System.out.println(((x/50) - 1) +" "+ ((y/50 - 1)) );
        		 if(fieldC == 1){  			 
     			 fieldC = 0;
+    			 System.out.print(x1+ " "+y1+" " +xold+ " "+yold +"\n");
     			return xold.concat(yold).concat(x1).concat(y1);
     		 }
     		 else {
@@ -145,7 +146,7 @@ private int ySize;
     		 //System.out.println(((x/50) - 1) +" "+ ((y/50 - 1)) );
     		 if(fieldC == 1){  			 
     			 fieldC = 0;
-    			 //System.out.print(x1.concat(y1).concat(xold).concat(yold)+ "\n");
+    			 System.out.print(x1+ " "+y1+" " +xold+ " "+yold +"\n");
     			 return x1.concat(y1).concat(xold).concat(yold);
     		
     		 }
