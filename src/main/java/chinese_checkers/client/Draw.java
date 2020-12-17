@@ -43,7 +43,7 @@ private int ySize;
 
     public void paint(Graphics g)
     {
-        drawBoard(g, this.currentBoard);
+        //drawBoard(g, this.currentBoard);
         drawPlayers(g, this.currentBoard);
     }
 
