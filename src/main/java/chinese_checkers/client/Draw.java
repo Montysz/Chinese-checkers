@@ -5,9 +5,11 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -50,7 +52,7 @@ private Socket socket;
 
     public void paint(Graphics g)
     {
-        drawBoard(g, this.currentBoard);
+       // drawBoard(g, this.currentBoard);
         drawPlayers(g, this.currentBoard);
     }
 
@@ -189,10 +191,10 @@ private Socket socket;
 
 	public void mouseExited(MouseEvent e) {
 	}
-	
 	public void getCurrentBoard(Board gameBoard)
 	{
 		this.currentBoard = gameBoard;
 		repaint();
 	}
+
 }
