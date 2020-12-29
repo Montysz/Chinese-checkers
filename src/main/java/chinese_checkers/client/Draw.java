@@ -1,8 +1,11 @@
 package chinese_checkers.client;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -17,7 +20,13 @@ import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.JFrame;
+import java.awt.Graphics;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import chinese_checkers.Exceptions.wrongNumberOfPlayersException;
 import chinese_checkers.serwer.Board;
@@ -29,9 +38,14 @@ private int xSize;
 private int ySize;
 private PrintWriter out;
 private Socket socket;
- 
+
+JTextField mess;
+
+
+
 	public Draw(Board board, Socket socket) 
-	{	
+	{
+       
 		   this.socket = socket;
 		   try
 		   {
@@ -42,12 +56,31 @@ private Socket socket;
 			e.printStackTrace();
 		   }
 	       setSize(1000, 1000);
+	       this.setBounds(0,0,1000,1000);
 	       this.currentBoard = board;      
 	       addMouseListener(this);
 	       this.setVisible(true);
 	       this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	       this.setAlwaysOnTop(true);
 	       this.setResizable(false);
+	       
+			JFrame jfrm = new JFrame();
+			jfrm.setLayout(new BorderLayout());
+			jfrm.setSize(200, 100);
+			jfrm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			mess = new JTextField(100);
+			mess.setEditable(false);
+			
+			
+			// Set third panel to display processed data
+			JPanel outFieldPane= new JPanel();
+			outFieldPane.setLayout(new GridLayout(1,2));
+			outFieldPane.add(new JLabel("Server: "));
+			outFieldPane.add(mess);
+			jfrm.add(outFieldPane,BorderLayout.SOUTH);		
+				
+			jfrm.setVisible(true);
+			text("siema");
 	}
 
     public void paint(Graphics g)
@@ -138,9 +171,10 @@ private Socket socket;
     		 //System.out.println(((x/50) - 1) +" "+ ((y/50 - 1)) );
        		 if(fieldC == 1){  			 
     			 fieldC = 0;
+    			 text("mouse ".concat(xold + " ").concat(yold + " ").concat(x1 + " ").concat(y1));
     			 out.println("mouse ".concat(xold + " ").concat(yold + " ").concat(x1 + " ").concat(y1));
 				 out.flush(); 
-    		 }
+       		 }
     		 else {
     			 fieldC = 1;
     			 xold = x1;
@@ -156,6 +190,7 @@ private Socket socket;
     		 if(fieldC == 1){  			 
     			 fieldC = 0;
     			 //System.out.print(x1.concat(y1).concat(xold).concat(yold)+ "\n");
+    			 text("mouse ".concat(xold + " ").concat(yold + " ").concat(x1 + " ").concat(y1));
     			 out.println("mouse ".concat(xold + " ").concat(yold + " ").concat(x1 + " ").concat(y1));
     			 out.flush(); 
     		
@@ -176,7 +211,6 @@ private Socket socket;
     }	 
 	public void mousePressed(MouseEvent e) {
 		Field(e.getX(), e.getY());
-		//System.out.print("\n press:"+  fieldC +"\n");
 	}
 
 	public void mouseReleased(MouseEvent e) {
@@ -197,4 +231,24 @@ private Socket socket;
 		repaint();
 	}
 
+	
+	public void text(String s)
+	{
+			mess.setText(s);
+	}
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
