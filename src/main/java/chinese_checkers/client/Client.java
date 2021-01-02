@@ -17,7 +17,11 @@ import chinese_checkers.Exceptions.occupiedException;
 import chinese_checkers.Exceptions.outOfTheBoardException;
 import chinese_checkers.Exceptions.wrongNumberOfPlayersException;
 import chinese_checkers.serwer.Board;
-
+/**
+ * 
+ * @author Pawel
+ *
+ */
 public class Client extends Thread {
 	Socket socket;
 	BufferedReader in;
@@ -34,7 +38,9 @@ public class Client extends Thread {
 	{
 		new Client();
 	}
-
+	/**
+	 * constructor of client initializes threads for listening for IO stream and drawind the game on client screen
+	 */
 	public Client()
 	{
 		try
@@ -88,6 +94,9 @@ public class Client extends Thread {
 			e.printStackTrace();
 		}
  	}
+	/**
+	 * run method for listening for input from server or keyboard and sending it to server
+	 */
 	public void run()
 	{
 		while(true)

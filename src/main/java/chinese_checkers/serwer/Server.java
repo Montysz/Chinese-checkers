@@ -43,7 +43,9 @@ public class Server extends Thread {
 	{
 		new Server();
 	}
-		
+	/**
+	 * Constructor for Server class, initializing the IO stream for server and the game board	
+	 */
 	public Server()
 	{
 		//Initialize the server
@@ -124,7 +126,9 @@ public class Server extends Thread {
 			if(gameEnded)break;
 		}
 	}
-	
+	/**
+	 * listening for clients connections 
+	 */
 	public void run()
 	{
 		while(true)

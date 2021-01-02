@@ -12,7 +12,11 @@ import chinese_checkers.Exceptions.cantGetOutOfTheJaillException;
 import chinese_checkers.Exceptions.invalidMoveException;
 import chinese_checkers.Exceptions.occupiedException;
 import chinese_checkers.Exceptions.outOfTheBoardException;
-
+/**
+ * 
+ * @author Pawel
+ * Adapter for clients input into server commands
+ */
 public class ClientHandler extends Thread{
 	Server server;
 	Socket client;
@@ -29,6 +33,11 @@ public class ClientHandler extends Thread{
 		this.server = server;
 		this.clientId = id;
 	}
+	/**
+	 * sends string message to all clients
+	 * @param text
+	 * 	text to send
+	 */
 	public void SendToAll(String text)
 	{
 		for(ClientHandler c : server.clients)
@@ -36,11 +45,18 @@ public class ClientHandler extends Thread{
 			c.SendToOne(text);
 		}
 	}
+	/**
+	 * sends string to current client
+	 * @param text
+	 */
 	public void SendToOne(String text)
 	{
 		out.println(text);
 		out.flush();
 	}
+	/**
+	 * method for listening inputs from client on diffrent thread
+	 */
 	public void run()
 	{
 		try
@@ -195,7 +211,10 @@ public class ClientHandler extends Thread{
 			}
 		}
 	}
-	
+	/**
+	 * Checking with player should move next
+	 * if no valid player is to be chosen, the game ends
+	 */
 	public void nextPlayerMove()
 	{
 		boolean allWon = true;

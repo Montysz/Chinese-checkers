@@ -31,7 +31,11 @@ import javax.swing.JPanel;
 import chinese_checkers.Exceptions.wrongNumberOfPlayersException;
 import chinese_checkers.serwer.Board;
 
-
+/**
+ * 
+ * @author Szymon
+ * 
+ */
 public class Draw extends JFrame implements MouseListener{
 private Board currentBoard;
 private int xSize;
@@ -42,7 +46,11 @@ private Socket socket;
 JTextField mess;
 
 
-
+	/**
+	 * Initializing user interface 
+	 * @param board current game board state, TODO: add spectator options
+	 * @param socket client socket for sending the data between gui and client class
+	 */
 	public Draw(Board board, Socket socket) 
 	{
        
@@ -82,13 +90,17 @@ JTextField mess;
 			jfrm.setVisible(true);
 			text("siema");
 	}
-
+	/**
+	 * painting the board
+	 */
     public void paint(Graphics g)
     {
        // drawBoard(g, this.currentBoard);
         drawPlayers(g, this.currentBoard);
     }
-
+    /**
+	 * painting the board
+	 */
     public void drawBoard(Graphics g, Board gameboard)
     { 	
     	Image img= createImage(getSize().width, getSize().height);
@@ -106,7 +118,10 @@ JTextField mess;
             }
         }     
         g.drawImage(img, 0, 0, this);
-    	}
+    }
+    /**
+	 * painting the board
+	 */
     public void drawPlayers(Graphics g, Board gameboard) {
     	Image img= createImage(getSize().width, getSize().height);
         Graphics2D g2= (Graphics2D)img.getGraphics();
@@ -161,6 +176,11 @@ JTextField mess;
     public int  fieldC = 0;
     public	String xold = "x";
 	public String yold = "y";
+	/**
+	 * method for checking player moving pieces on the board
+	 * @param x x-cord of mouse input
+	 * @param y	y-cord of mouse input
+	 */
     public void Field(int x, int y)
       {   	
 
@@ -204,15 +224,20 @@ JTextField mess;
     	 }   	    
       }
           
-     public void mouseClicked(MouseEvent e) 
+    public void mouseClicked(MouseEvent e) 
     {
          
          
-    }	 
+    }
+    /**
+     * listening for mouse pressed
+     */
 	public void mousePressed(MouseEvent e) {
 		Field(e.getX(), e.getY());
 	}
-
+	/**
+     * listening for mouse released
+     */
 	public void mouseReleased(MouseEvent e) {
 		Field(e.getX(), e.getY()); 
 		//System.out.print("\n reelased:"+  fieldC +"\n");
@@ -225,13 +250,20 @@ JTextField mess;
 
 	public void mouseExited(MouseEvent e) {
 	}
+	/**
+	 * uppdating current board state
+	 * @param gameBoard current board state
+	 */
 	public void getCurrentBoard(Board gameBoard)
 	{
 		this.currentBoard = gameBoard;
 		repaint();
 	}
 
-	
+	/**
+	 * Display text massage on the screen
+	 * @param s massage
+	 */
 	public void text(String s)
 	{
 			mess.setText(s);
