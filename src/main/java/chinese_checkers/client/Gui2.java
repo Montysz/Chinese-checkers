@@ -11,7 +11,8 @@ import javax.swing.*;
 public class Gui2 implements ActionListener
 {
 	JTextField fullName;
-	PrintWriter out;	
+	PrintWriter out;
+	JFrame jfrm;
 	Gui2(Socket socket)		
 	{		
 		try
@@ -22,7 +23,7 @@ public class Gui2 implements ActionListener
 		{
 			e.printStackTrace();
 		}
-		JFrame jfrm = new JFrame("Ready State");
+		jfrm = new JFrame("Ready State");
 		jfrm.setSize(250, 250);
 		jfrm.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		fullName = new JTextField(10);
@@ -37,11 +38,13 @@ public class Gui2 implements ActionListener
 		outFieldPane.add(new JLabel("You are"));
 		outFieldPane.add(fullName);
 		jfrm.add(outFieldPane,BorderLayout.AFTER_LAST_LINE);
+		jfrm.setAlwaysOnTop(true);
+		jfrm.setResizable(false);
 		jfrm.setVisible(true);
 	}
 	public void exit()
 	{
-		System.exit(0);
+		jfrm.dispatchEvent(new WindowEvent(jfrm, WindowEvent.WINDOW_CLOSING));
 	}
 	public void actionPerformed(ActionEvent e)
 	{

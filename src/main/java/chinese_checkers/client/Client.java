@@ -31,6 +31,7 @@ public class Client extends Thread {
 	Board gameBoard = null;
 	Draw screen;
 	int numberOfPlayers;
+	int playerid;
 	boolean gameInit = false;
 	boolean gameStarted = false;
 	boolean ok = true;
@@ -39,7 +40,7 @@ public class Client extends Thread {
 		new Client();
 	}
 	/**
-	 * constructor of client initializes threads for listening for IO stream and drawind the game on client screen
+	 * constructor of client initializes threads for listening for IO stream and drawing the game on client screen
 	 */
 	public Client()
 	{
@@ -63,7 +64,7 @@ public class Client extends Thread {
 					{
 						e.printStackTrace();
 					}
-					screen = new Draw(socket);
+					screen = new Draw(gameBoard, socket, playerid);
 					gui.exit();
 					ok = false;
 				}
@@ -152,6 +153,10 @@ public class Client extends Thread {
 					{
 						out.println("ready");
 						out.flush();
+					}
+					else if(input.startsWith("Welcome new user"))
+					{
+						this.playerid = Integer.parseInt(input.substring(29));
 					}
 					else if(input.startsWith("Initialized with "))
 					{

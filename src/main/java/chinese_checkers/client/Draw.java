@@ -42,15 +42,14 @@ private int xSize;
 private int ySize;
 private PrintWriter out;
 private Socket socket;
-
-JTextField mess;
+private JTextField mess;
 
 
 	/**
 	 * Initializing user interface 
 	 * @param socket client socket for sending the data between gui and client class
 	 */
-	public Draw(Socket socket) 
+	public Draw(Board gameBoard, Socket socket, int playerid) 
 	{
        
 		   this.socket = socket;
@@ -62,31 +61,26 @@ JTextField mess;
 		   {
 			e.printStackTrace();
 		   }
+		   this.setTitle("Player " + playerid);
+		   this.setLayout(new BorderLayout());
+		   this.currentBoard = gameBoard;
 	       setSize(1000, 1000);
-	       this.setBounds(0,0,1000,1000);
+	       this.setBounds(0,0, 800, 800);
 	       addMouseListener(this);
-	       this.setVisible(true);
 	       this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	       this.setAlwaysOnTop(true);
 	       this.setResizable(false);
 	       
-	       JFrame jfrm = new JFrame();
-	       jfrm.setLayout(new BorderLayout());
-	       jfrm.setSize(200, 100);
-	       jfrm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	       mess = new JTextField(100);
 	       mess.setEditable(false);
 	       
 	       
 	       // Set third panel to display processed data
 	       JPanel outFieldPane= new JPanel();
-	       outFieldPane.setLayout(new GridLayout(1,2));
 	       outFieldPane.add(new JLabel("Server: "));
 	       outFieldPane.add(mess);
-	       jfrm.add(outFieldPane,BorderLayout.SOUTH);		
-				
-	       jfrm.setVisible(true);
-	       text("siema");
+	       this.add(outFieldPane,BorderLayout.EAST);		
+	       this.setVisible(true);
 	}
 	/**
 	 * painting the board
