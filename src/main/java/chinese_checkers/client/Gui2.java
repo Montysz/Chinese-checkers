@@ -2,20 +2,32 @@ package chinese_checkers.client;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
+
 import javax.swing.*;
 
 public class Gui2 implements ActionListener
 {
 	JTextField fullName;
-		
-	Gui2()		
+	PrintWriter out;	
+	Gui2(Socket socket)		
 	{		
+		try
+		{
+			out = new PrintWriter(socket.getOutputStream());
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
 		JFrame jfrm = new JFrame("Ready State");
 		jfrm.setSize(250, 250);
 		jfrm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		fullName = new JTextField(10);
 		fullName.setText("not ready");
-
+		
 		JPanel submitPane = new JPanel();
 		JButton submitButton = new JButton("Ready");
 		submitButton.addActionListener(this);
@@ -35,12 +47,16 @@ public class Gui2 implements ActionListener
 	        ready();
 	}
 	
-    public String ready() {
+    public String ready()
+    {
+    	out.println("readyButton");
+    	out.flush();
     	return "ready";
     }
-    //TO delete
+    /*
 	public static void main(String[] args)
 	{
-		new Gui2();  
+		new Gui2(null);  
 	}
+	*/
 }

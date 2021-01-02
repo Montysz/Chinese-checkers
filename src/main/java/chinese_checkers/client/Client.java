@@ -28,7 +28,7 @@ public class Client extends Thread {
 	BufferedReader keyboard;
 	PrintWriter out;
 	ExecutorService listener = Executors.newFixedThreadPool(2);
-	Board gameBoard;
+	Board gameBoard = null;
 	Draw screen;
 	int numberOfPlayers;
 	boolean gameInit = false;
@@ -50,8 +50,7 @@ public class Client extends Thread {
 			out = new PrintWriter(socket.getOutputStream());
 			keyboard = new BufferedReader(new InputStreamReader(System.in));
 			listener.execute(this);
-			//TODO: recive current gameBoard from server and draw it with Draw class;
-			
+			Gui2 gui = new Gui2(socket);
 			while(true)
 			{
 				if(gameInit && ok)
@@ -64,7 +63,7 @@ public class Client extends Thread {
 					{
 						e.printStackTrace();
 					}
-					screen = new Draw(gameBoard, socket);
+					screen = new Draw(socket);
 					ok = false;
 				}
 				while(gameStarted)
@@ -147,6 +146,11 @@ public class Client extends Thread {
 					else if(input.startsWith("Game has Started"))
 					{
 						gameStarted = true;
+					}
+					else if(input.startsWith("readyButton"))
+					{
+						out.println("ready");
+						out.flush();
 					}
 					else if(input.startsWith("Initialized with "))
 					{

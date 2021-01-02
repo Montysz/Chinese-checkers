@@ -37,7 +37,7 @@ import chinese_checkers.serwer.Board;
  * 
  */
 public class Draw extends JFrame implements MouseListener{
-private Board currentBoard;
+private Board currentBoard = null;
 private int xSize;
 private int ySize;
 private PrintWriter out;
@@ -48,10 +48,9 @@ JTextField mess;
 
 	/**
 	 * Initializing user interface 
-	 * @param board current game board state, TODO: add spectator options
 	 * @param socket client socket for sending the data between gui and client class
 	 */
-	public Draw(Board board, Socket socket) 
+	public Draw(Socket socket) 
 	{
        
 		   this.socket = socket;
@@ -65,30 +64,29 @@ JTextField mess;
 		   }
 	       setSize(1000, 1000);
 	       this.setBounds(0,0,1000,1000);
-	       this.currentBoard = board;      
 	       addMouseListener(this);
 	       this.setVisible(true);
 	       this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	       this.setAlwaysOnTop(true);
 	       this.setResizable(false);
 	       
-			JFrame jfrm = new JFrame();
-			jfrm.setLayout(new BorderLayout());
-			jfrm.setSize(200, 100);
-			jfrm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			mess = new JTextField(100);
-			mess.setEditable(false);
-			
-			
-			// Set third panel to display processed data
-			JPanel outFieldPane= new JPanel();
-			outFieldPane.setLayout(new GridLayout(1,2));
-			outFieldPane.add(new JLabel("Server: "));
-			outFieldPane.add(mess);
-			jfrm.add(outFieldPane,BorderLayout.SOUTH);		
+	       JFrame jfrm = new JFrame();
+	       jfrm.setLayout(new BorderLayout());
+	       jfrm.setSize(200, 100);
+	       jfrm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	       mess = new JTextField(100);
+	       mess.setEditable(false);
+	       
+	       
+	       // Set third panel to display processed data
+	       JPanel outFieldPane= new JPanel();
+	       outFieldPane.setLayout(new GridLayout(1,2));
+	       outFieldPane.add(new JLabel("Server: "));
+	       outFieldPane.add(mess);
+	       jfrm.add(outFieldPane,BorderLayout.SOUTH);		
 				
-			jfrm.setVisible(true);
-			text("siema");
+	       jfrm.setVisible(true);
+	       text("siema");
 	}
 	/**
 	 * painting the board
