@@ -24,7 +24,7 @@ public class Gui2 implements ActionListener
 		}
 		JFrame jfrm = new JFrame("Ready State");
 		jfrm.setSize(250, 250);
-		jfrm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		jfrm.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		fullName = new JTextField(10);
 		fullName.setText("not ready");
 		
