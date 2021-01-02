@@ -64,6 +64,7 @@ public class Client extends Thread {
 						e.printStackTrace();
 					}
 					screen = new Draw(socket);
+					gui.exit();
 					ok = false;
 				}
 				while(gameStarted)

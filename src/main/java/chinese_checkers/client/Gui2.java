@@ -27,7 +27,6 @@ public class Gui2 implements ActionListener
 		jfrm.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		fullName = new JTextField(10);
 		fullName.setText("not ready");
-		
 		JPanel submitPane = new JPanel();
 		JButton submitButton = new JButton("Ready");
 		submitButton.addActionListener(this);
@@ -40,7 +39,10 @@ public class Gui2 implements ActionListener
 		jfrm.add(outFieldPane,BorderLayout.AFTER_LAST_LINE);
 		jfrm.setVisible(true);
 	}
-		
+	public void exit()
+	{
+		System.exit(0);
+	}
 	public void actionPerformed(ActionEvent e)
 	{
 			fullName.setText("ready");
