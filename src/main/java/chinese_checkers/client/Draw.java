@@ -6,9 +6,16 @@ import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -19,6 +26,8 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -65,22 +74,35 @@ private JTextField mess;
 		   this.setLayout(new BorderLayout());
 		   this.currentBoard = gameBoard;
 	       setSize(1000, 1000);
-	       this.setBounds(0,0, 800, 800);
+	       this.setBounds(0,0, 800, 1000);
 	       addMouseListener(this);
 	       this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	       this.setAlwaysOnTop(true);
 	       this.setResizable(false);
-	       
-	       mess = new JTextField(100);
-	       mess.setEditable(false);
-	       
-	       
-	       // Set third panel to display processed data
-	       JPanel outFieldPane= new JPanel();
-	       outFieldPane.add(new JLabel("Server: "));
-	       outFieldPane.add(mess);
-	       this.add(outFieldPane,BorderLayout.EAST);		
 	       this.setVisible(true);
+	       
+
+
+	       JFrame frame = new JFrame("Options");
+	       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	       frame.setSize(200,1000);
+	       frame.setBounds(800,0, 100, 200);
+	       JButton button = new JButton("Skip");
+			//Uncomment pawe³ plox
+	       //button.addActionListener(this);
+
+	       mess = new JTextField("siema");
+	       mess.setEditable(false);
+	      // mess.setVisible(true);
+	        JPanel panel = new JPanel(); // the panel is not visible in output	        
+	        	panel.add(new JLabel("Server: \n"));
+	        	panel.add(mess);
+	        	panel.setVisible(true);
+	        	frame.add(panel);
+
+	       // frame.getContentPane().add(BorderLayout.AFTER_LAST_LINE, button);
+	        frame.setVisible(true);
+		
 	}
 	/**
 	 * painting the board
@@ -261,18 +283,11 @@ private JTextField mess;
 			mess.setText(s);
 	}
 	
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+    public String skip()
+    {
+    	out.println("skipButton");
+    	out.flush();
+    	return "skip";
+    }
+		
 }
