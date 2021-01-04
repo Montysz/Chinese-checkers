@@ -89,9 +89,9 @@ private JTextField mess;
 	       frame.setBounds(800,0, 100, 200);
 	       JButton button = new JButton("Skip");
 			//Uncomment pawe³ plox
-	       //button.addActionListener(this);
+	       //button.addActionListener((ActionListener) this);
 
-	       mess = new JTextField("siema");
+	       mess = new JTextField();
 	       mess.setEditable(false);
 	      // mess.setVisible(true);
 	        JPanel panel = new JPanel(); // the panel is not visible in output	        
