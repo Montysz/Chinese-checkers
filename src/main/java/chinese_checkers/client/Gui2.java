@@ -7,7 +7,11 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 import javax.swing.*;
-
+/**
+ * 
+ * @author Szymon
+ *
+ */
 public class Gui2 implements ActionListener
 {
 	JTextField state;
@@ -46,22 +50,23 @@ public class Gui2 implements ActionListener
 	{
 		jfrm.dispatchEvent(new WindowEvent(jfrm, WindowEvent.WINDOW_CLOSING));
 	}
+	/**
+	 * return ready when readybutton is pressed
+	 * @return skip word to server
+	 */
 	public void actionPerformed(ActionEvent e)
 	{
 			state.setText("ready");
 	        ready();
 	}
-	
+	/**
+	 *
+	 * @return "ready" to server
+	 */
     public String ready()
     {
     	out.println("readyButton");
     	out.flush();
     	return "ready";
     }
-    /*
-	public static void main(String[] args)
-	{
-		new Gui2(null);  
-	}
-	*/
 }
