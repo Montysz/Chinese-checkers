@@ -21,7 +21,7 @@ import chinese_checkers.Exceptions.wrongNumberOfPlayersException;
 
 /**
  * 
- * @author Szymon
+ * @author Pawel
  *
  */
 
@@ -70,7 +70,7 @@ public class Server extends Thread {
 				System.err.println("socket occupied or null");
 			}
 		}
-		//server initialized, now open listener thread
+		//server initialized, now open listener thread 
 		listener.execute(this);
 		while(true)
 		{

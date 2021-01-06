@@ -35,6 +35,8 @@ public class Client extends Thread {
 	boolean gameInit = false;
 	boolean gameStarted = false;
 	boolean ok = true;
+	Gui gui;
+	boolean prawda = false;
 	public static void main(String[] args)
 	{
 		new Client();
@@ -67,7 +69,8 @@ public class Client extends Thread {
 					screen = new Draw(gameBoard, socket, playerid);
 					gui2.exit();
 					ok = false;
-					Gui gui = new Gui(socket);
+					gui = new Gui(socket, playerid);
+					prawda = true;
 				}
 				while(gameStarted)
 				{
@@ -110,8 +113,10 @@ public class Client extends Thread {
 				if(in.ready())
 				{
 					input = in.readLine();
+					boolean tmp = true;
 					if(input.startsWith("move"))
 					{
+						tmp = false;
 						int index = input.indexOf(" ") + 1;
 						String data = input.substring(index);
 						String[] values = data.split(" ");
@@ -144,6 +149,7 @@ public class Client extends Thread {
 					}
 					else if(input.startsWith("mouse"))
 					{
+						tmp = false;
 						input = "move" + input.substring(input.indexOf(" "));
 					}
 					else if(input.startsWith("Game has Started"))
@@ -165,6 +171,10 @@ public class Client extends Thread {
 						//for(int i = 0; i < arr.length; i++)System.out.println(arr[i]);
 						numberOfPlayers = Integer.parseInt(arr[2]);
 						gameInit = true;
+					}
+					if(prawda && tmp)
+					{
+						gui.text(input);
 					}
 					System.out.println(input);
 				}
