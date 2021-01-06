@@ -3,41 +3,15 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.*;
-import java.awt.event.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import javax.swing.*;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.Socket;
-
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.JFrame;
-import java.awt.Graphics;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 
-import chinese_checkers.Exceptions.wrongNumberOfPlayersException;
 import chinese_checkers.serwer.Board;
 
 /**
@@ -47,62 +21,36 @@ import chinese_checkers.serwer.Board;
  */
 public class Draw extends JFrame implements MouseListener{
 private Board currentBoard = null;
-private int xSize;
-private int ySize;
+
 private PrintWriter out;
 private Socket socket;
-private JTextField mess;
 
 
 	/**
-	 * Initializing user interface 
+	 * Initializing board
 	 * @param socket client socket for sending the data between gui and client class
 	 */
 	public Draw(Board gameBoard, Socket socket, int playerid) 
-	{
-       
-		   this.socket = socket;
-		   try
-		   {
-			   this.out = new PrintWriter(socket.getOutputStream());
-		   }
-		   catch (IOException e)
-		   {
-			e.printStackTrace();
-		   }
-		   this.setTitle("Player " + playerid);
-		   this.setLayout(new BorderLayout());
-		   this.currentBoard = gameBoard;
-	       setSize(1000, 1000);
-	       this.setBounds(0,0, 800, 1000);
-	       addMouseListener(this);
-	       this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	       this.setAlwaysOnTop(true);
-	       this.setResizable(false);
-	       this.setVisible(true);
-	       
-
-
-	       JFrame frame = new JFrame("Options");
-	       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	       frame.setSize(200,1000);
-	       frame.setBounds(800,0, 100, 200);
-	       JButton button = new JButton("Skip");
-			//Uncomment pawe³ plox
-	       //button.addActionListener((ActionListener) this);
-
-	       mess = new JTextField();
-	       mess.setEditable(false);
-	      // mess.setVisible(true);
-	        JPanel panel = new JPanel(); // the panel is not visible in output	        
-	        	panel.add(new JLabel("Server: \n"));
-	        	panel.add(mess);
-	        	panel.setVisible(true);
-	        	frame.add(panel);
-
-	       // frame.getContentPane().add(BorderLayout.AFTER_LAST_LINE, button);
-	        frame.setVisible(true);
-		
+	{     
+		this.socket = socket;
+		try
+		{
+		 this.out = new PrintWriter(socket.getOutputStream());
+		}
+		catch (IOException e)
+		{
+	     e.printStackTrace();
+		}
+		this.setTitle("Player " + playerid);
+		this.setLayout(new BorderLayout());
+		this.currentBoard = gameBoard;
+	    setSize(1000, 1000);
+	    this.setBounds(0,0, 800, 1000);
+	    addMouseListener(this);
+	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    this.setAlwaysOnTop(true);
+	    this.setResizable(false);
+	    this.setVisible(true);	
 	}
 	/**
 	 * painting the board
@@ -111,27 +59,6 @@ private JTextField mess;
     {
        // drawBoard(g, this.currentBoard);
         drawPlayers(g, this.currentBoard);
-    }
-    /**
-	 * painting the board
-	 */
-    public void drawBoard(Graphics g, Board gameboard)
-    { 	
-    	Image img= createImage(getSize().width, getSize().height);
-        Graphics2D g2= (Graphics2D)img.getGraphics(); 
-        for(int i=0;i<17;i++)
-        {
-            for(int j=0; j<13;j++)
-            {
-                int r = 50;
-                if(gameboard.getBoard()[i][j].getPlayerId() != -1)
-                {                  
-                    //g2.setColor(Color.blue);                         
-                    //g2.fillRect(j+r+j*r+(i%2)*r/2, i+r+i*r, r , r);                     
-                }
-            }
-        }     
-        g.drawImage(img, 0, 0, this);
     }
     /**
 	 * painting the board
@@ -205,7 +132,7 @@ private JTextField mess;
     		 //System.out.println(((x/50) - 1) +" "+ ((y/50 - 1)) );
        		 if(fieldC == 1){  			 
     			 fieldC = 0;
-    			 text("mouse ".concat(xold + " ").concat(yold + " ").concat(x1 + " ").concat(y1));
+    			 //text("mouse ".concat(xold + " ").concat(yold + " ").concat(x1 + " ").concat(y1));
     			 out.println("mouse ".concat(xold + " ").concat(yold + " ").concat(x1 + " ").concat(y1));
 				 out.flush(); 
        		 }
@@ -224,7 +151,7 @@ private JTextField mess;
     		 if(fieldC == 1){  			 
     			 fieldC = 0;
     			 //System.out.print(x1.concat(y1).concat(xold).concat(yold)+ "\n");
-    			 text("mouse ".concat(xold + " ").concat(yold + " ").concat(x1 + " ").concat(y1));
+    			 //text("mouse ".concat(xold + " ").concat(yold + " ").concat(x1 + " ").concat(y1));
     			 out.println("mouse ".concat(xold + " ").concat(yold + " ").concat(x1 + " ").concat(y1));
     			 out.flush(); 
     		
@@ -238,10 +165,8 @@ private JTextField mess;
     	 }   	    
       }
           
-    public void mouseClicked(MouseEvent e) 
-    {
-         
-         
+    public void mouseClicked(MouseEvent e) {        
+   
     }
     /**
      * listening for mouse pressed
@@ -268,26 +193,10 @@ private JTextField mess;
 	 * uppdating current board state
 	 * @param gameBoard current board state
 	 */
+	
 	public void getCurrentBoard(Board gameBoard)
 	{
 		this.currentBoard = gameBoard;
 		repaint();
 	}
-
-	/**
-	 * Display text massage on the screen
-	 * @param s massage
-	 */
-	public void text(String s)
-	{
-			mess.setText(s);
-	}
-	
-    public String skip()
-    {
-    	out.println("skipButton");
-    	out.flush();
-    	return "skip";
-    }
-		
 }

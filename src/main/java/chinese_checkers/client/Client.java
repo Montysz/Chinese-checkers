@@ -51,7 +51,7 @@ public class Client extends Thread {
 			out = new PrintWriter(socket.getOutputStream());
 			keyboard = new BufferedReader(new InputStreamReader(System.in));
 			listener.execute(this);
-			Gui2 gui = new Gui2(socket);
+			Gui2 gui2 = new Gui2(socket);
 			while(true)
 			{
 				if(gameInit && ok)
@@ -65,8 +65,9 @@ public class Client extends Thread {
 						e.printStackTrace();
 					}
 					screen = new Draw(gameBoard, socket, playerid);
-					gui.exit();
+					gui2.exit();
 					ok = false;
+					Gui gui = new Gui(socket);
 				}
 				while(gameStarted)
 				{
@@ -200,5 +201,3 @@ public class Client extends Thread {
 		}
 	}
 }
-
-

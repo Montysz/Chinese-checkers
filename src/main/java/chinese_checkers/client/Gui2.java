@@ -10,7 +10,7 @@ import javax.swing.*;
 
 public class Gui2 implements ActionListener
 {
-	JTextField fullName;
+	JTextField state;
 	PrintWriter out;
 	JFrame jfrm;
 	Gui2(Socket socket)		
@@ -26,8 +26,8 @@ public class Gui2 implements ActionListener
 		jfrm = new JFrame("Ready State");
 		jfrm.setSize(250, 250);
 		jfrm.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		fullName = new JTextField(10);
-		fullName.setText("not ready");
+		state = new JTextField(10);
+		state.setText("not ready");
 		JPanel submitPane = new JPanel();
 		JButton submitButton = new JButton("Ready");
 		submitButton.addActionListener(this);
@@ -36,7 +36,7 @@ public class Gui2 implements ActionListener
 		
 		JPanel outFieldPane= new JPanel();
 		outFieldPane.add(new JLabel("You are"));
-		outFieldPane.add(fullName);
+		outFieldPane.add(state);
 		jfrm.add(outFieldPane,BorderLayout.AFTER_LAST_LINE);
 		jfrm.setAlwaysOnTop(true);
 		jfrm.setResizable(false);
@@ -48,7 +48,7 @@ public class Gui2 implements ActionListener
 	}
 	public void actionPerformed(ActionEvent e)
 	{
-			fullName.setText("ready");
+			state.setText("ready");
 	        ready();
 	}
 	
